@@ -37,7 +37,7 @@
 
             <div class="card o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
-                    @yield('auth_content')
+                    @yield('auth-content')
                 </div>
             </div>
 

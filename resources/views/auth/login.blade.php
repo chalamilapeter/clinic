@@ -1,6 +1,6 @@
 @extends('layouts.auth.common')
 
-@section('auth_content')
+@section('auth-content')
     <div class="row">
         <div class="col-lg-6 d-none d-lg-block">
             <img src="{{asset('img/login.svg')}}" width="500px"  alt="" class="p-3 mt-4">

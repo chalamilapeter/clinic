@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::view('/',  'auth.logintest');
+Route::view('/',  'auth.login');
 
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Route::view('admin', 'admin.index')->name('admin.index');
+Route::view('doctor', 'doctor.index')->name('doctor.index');
+Route::view('patient', 'patient.index')->name('patient.index');
+
+Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
