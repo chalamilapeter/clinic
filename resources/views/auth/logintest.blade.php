@@ -8,7 +8,7 @@
         <div class="col-lg-6">
             <div class="p-5">
                 <div class="text-center">
-                    <h1 class="h4 text-gray-900 mb-4">Welcome Back!</h1>
+                    <h1 class="h4 text-gray-900 mb-4">Welcome</h1>
                 </div>
                 <form class="user" action="{{ route('login') }}" method="POST">
                     @csrf
@@ -38,21 +38,20 @@
                     </div>
                     <div class="form-group">
                         <div class="custom-control custom-checkbox small">
-                            <input type="checkbox" class="custom-control-input" id="customCheck">
+                            <input type="checkbox" class="custom-control-input" id="customCheck" name="remember" {{ old('remember') ? 'checked' : '' }}>
                             <label class="custom-control-label" for="customCheck">Remember
                                 Me</label>
                         </div>
                     </div>
-                    <a href="index.html" class="btn btn-primary btn-user btn-block">
+                    <button type = "submit" class="btn btn-primary btn-user btn-block">
                         Login
-                    </a>
+                    </button>
                     <hr>
                 </form>
                 <div class="text-center">
-                    <a class="small" href="forgot-password.html">Forgot Password?</a>
-                </div>
-                <div class="text-center">
-                    <a class="small" href="register.html">Create an Account!</a>
+                    @if (Route::has('password.request'))
+                        <a class="small" href="{{ route('password.request') }}">Forgot Password?</a>
+                    @endif
                 </div>
             </div>
         </div>
