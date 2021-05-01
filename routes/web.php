@@ -20,8 +20,26 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Route::view('admin', 'admin.index')->name('admin.index');
-Route::view('doctor', 'doctor.index')->name('doctor.index');
-Route::view('patient', 'patient.index')->name('patient.index');
+Route::group(['middleware' => 'auth'], function(){
 
+    //Admin Routes
+    Route::group(['prefix' => 'admin', 'middleware'=>'role:Admin'], function(){
+        Route::view('dashboard', 'admin.index')->name('admin.index');
+    });
+
+    //Doctor Routes
+    Route::group(['prefix' => 'doctor', 'middleware'=>'role:Doctor'], function(){
+        Route::view('dashboard', 'doctor.index')->name('doctor.index');
+    });
+
+    //Patient Routes
+    Route::group(['prefix' => 'patient', 'middleware'=>'role:Patient'], function(){
+        Route::view('dashboard', 'patient.index')->name('patient.index');
+    });
+
+});
+
+//Test routes
 Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
+Route::get('/blank', [App\Http\Controllers\HomeController::class, 'blank'])->name('blank');
+

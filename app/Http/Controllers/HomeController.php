@@ -30,4 +30,9 @@ class HomeController extends Controller
     {
         return view('doctor.profile');
     }
+
+    public function blank()
+    {
+        echo "PENDING";
+    }
 }

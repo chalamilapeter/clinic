@@ -13,12 +13,12 @@ class Role
      *
      * @param \Illuminate\Http\Request $request
      * @param Closure $next
-     * @param $role
+     * @param string $role
      * @return mixed
      */
-    public function handle(Request $request, Closure $next, $role)
+    public function handle(Request $request, Closure $next, string $role)
     {
-        if (Auth::user()->role()->name != $role) {
+        if(Auth::user()->role->name != $role) {
             abort(403);
         }
 

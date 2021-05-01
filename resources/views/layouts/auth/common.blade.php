@@ -8,8 +8,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>e-clinic - Login</title>
+    <link rel="shortcut icon" href="{{asset('img/icon.svg')}}" />
+    <title>Nyumbani clinic - Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -32,7 +32,7 @@
         <div class="col-xl-10 col-lg-12 col-md-9">
 
             <div class="text-center text-white mt-5">
-                <h1>Nyumbani Clinic</h1>
+                <img src="{{asset('img/logo.svg')}}" class="w-25" alt="">
             </div>
 
             <div class="card o-hidden border-0 shadow-lg my-5">
