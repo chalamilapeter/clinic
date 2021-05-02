@@ -1,4 +1,4 @@
-<div class="errors mt-5 text-center" style="font-size: 20px">
+<div class="errors mt-5 text-center" style="font-size: 17px">
     <div class="errors_displayed col-md-12">
         @if (session('success'))
             <div class="alerts alert alert-success alert-dismissible fade show" role="alert">

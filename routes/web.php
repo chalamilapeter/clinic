@@ -20,16 +20,23 @@ Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
+//Auth Routes
 Route::group(['middleware' => 'auth'], function(){
 
+    //Shared Routes
+    Route::resource('complaints', \App\Http\Controllers\ComplaintController::class);
+
     //Admin Routes
-    Route::group(['prefix' => 'admin', 'middleware'=>'role:Admin'], function(){
+    Route::group(['prefix' => 'admin','middleware'=>'role:Admin'], function(){
         Route::view('dashboard', 'admin.index')->name('admin.index');
+        Route::resource('patients', \App\Http\Controllers\PatientController::class);
+
     });
 
     //Doctor Routes
     Route::group(['prefix' => 'doctor', 'middleware'=>'role:Doctor'], function(){
         Route::view('dashboard', 'doctor.index')->name('doctor.index');
+        Route::get('patients', [\App\Http\Controllers\PatientController::class, 'index'])->name('doctor.patients.index');
     });
 
     //Patient Routes
