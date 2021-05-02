@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\Disease;
 use App\Models\Patient;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class PatientController extends Controller
 {
@@ -28,18 +32,60 @@ class PatientController extends Controller
 
     public function create()
     {
-        return view('admin.patients.create');
+        $diseases = Disease::all();
+        $doctors = User::where('role_id', 2)->get();
+
+        return view('admin.patients.create', compact('diseases', 'doctors'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        DB::transaction(function() use ($request) {
+            $data = $request->validate([
+                'email' => 'required|email|unique:users',
+                'password' => 'required|min:6|same:confirm_password',
+                'confirm_password' => 'required|same:password',
+                'first_name' => 'required',
+                'middle_name' => '',
+                'last_name' => 'required',
+                'gender' => 'required',
+                'birth_date' => 'required',
+                'nationality' => 'required',
+                'phone_1' => 'required|unique:patients',
+                'phone_2' => 'required|unique:patients',
+                'address' => 'required',
+                'image_path' => 'required',
+                'disease_id' => 'required',
+                'doctor_id' => 'required',
+                'appointment_date' => 'required',
+            ]);
+
+            $user = new User;
+            $user->email = $data['email'];
+            $user->role_id = 3;
+            $user->password = Hash::make($data['password']);
+            $user->save();
+
+            $user->patient()->create([
+                'disease_id' => $data['disease_id'],
+                'doctor_id' => $data['doctor_id'],
+                'first_name' => $data['first_name'],
+                'middle_name' => $data['middle_name'],
+                'last_name' => $data['last_name'],
+                'gender' => $data['gender'],
+                'birth_date' => $data['birth_date'],
+                'nationality' => $data['nationality'],
+                'phone_1' => $data['phone_1'],
+                'phone_2' => $data['phone_2'],
+                'image_path' => 'img/test.jpg',
+                'address' => $data['address'],
+                'appointment_date' => $data['appointment_date'],
+            ]);
+        });
+
+       return back()->with('success', 'Patient created successfully');
+
     }
 
     /**
@@ -76,14 +122,11 @@ class PatientController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Patient  $patient
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Patient $patient)
     {
-        //
+        User::where('id', $patient->user->id)->delete();
+
+        return back()->with('success', 'Patient deleted');
     }
 }

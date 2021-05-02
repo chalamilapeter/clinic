@@ -30,6 +30,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::group(['prefix' => 'admin','middleware'=>'role:Admin'], function(){
         Route::view('dashboard', 'admin.index')->name('admin.index');
         Route::resource('patients', \App\Http\Controllers\PatientController::class);
+        Route::resource('doctors', \App\Http\Controllers\DoctorController::class);
 
     });
 

@@ -20,7 +20,7 @@ class CreatePatientsTable extends Migration
             $table->integer('doctor_id')->unsigned();
             $table->date('appointment_date');
             $table->string('first_name');
-            $table->string('middle_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->date('birth_date');
             $table->string('gender');

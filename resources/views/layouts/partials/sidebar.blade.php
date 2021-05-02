@@ -26,14 +26,14 @@
 
             <!-- Nav Item - Pages Collapse Menu -->
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" >
+                <a class="nav-link collapsed" href="{{route('patients.index')}}" >
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Patients</span>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" >
+                <a class="nav-link collapsed" href="{{route('doctors.index')}}" >
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Doctors</span>
                 </a>

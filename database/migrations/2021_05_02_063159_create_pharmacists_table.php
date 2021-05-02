@@ -19,7 +19,7 @@ class CreatePharmacistsTable extends Migration
             $table->foreignId('pharmacy_id')->constrained('pharmacies')->onDelete('cascade')->onUpdate('cascade');
 
             $table->string('first_name');
-            $table->string('middle_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->date('birth_date');
             $table->string('gender');

@@ -19,7 +19,7 @@ class CreateLabTechsTable extends Migration
             $table->foreignId('lab_id')->constrained('labs')->onDelete('cascade')->onUpdate('cascade');
 
             $table->string('first_name');
-            $table->string('middle_name');
+            $table->string('middle_name')->nullable();
             $table->string('last_name');
             $table->date('birth_date');
             $table->string('gender');
