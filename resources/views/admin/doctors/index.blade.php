@@ -26,7 +26,7 @@
                             <th>Name</th>
                             <th>Specialty</th>
                             <th>Age</th>
-                            <th>Address/th>
+                            <th>Address</th>
                             <th>Gender</th>
                             <th>Actions</th>
                         </tr>
@@ -62,7 +62,7 @@
                            @endforeach
                        @else
                            <tr class="text-center">
-                               <td colspan="6">No Patients yet!</td>
+                               <td colspan="6">No Doctors yet!</td>
                            </tr>
                        @endif
                     </tbody>

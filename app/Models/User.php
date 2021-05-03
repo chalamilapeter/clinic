@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Admin\LabTechnician;
+use App\Models\Admin\Pharmacist;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -54,6 +56,16 @@ class User extends Authenticatable
     public function doctor()
     {
         return $this->hasOne(Doctor::class);
+    }
+
+    public function lab_technician()
+    {
+        return $this->hasOne(LabTechnician::class);
+    }
+
+    public function pharmacist()
+    {
+        return $this->hasOne(Pharmacist::class);
     }
 
     public function complaints()

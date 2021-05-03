@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateLabTechsTable extends Migration
+class CreateLabTechniciansTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,10 +13,10 @@ class CreateLabTechsTable extends Migration
      */
     public function up()
     {
-        Schema::create('lab_techs', function (Blueprint $table) {
+        Schema::create('lab_technicians', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('lab_id')->constrained('labs')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('lab_id')->constrained('labs')->onUpdate('cascade')->onDelete('cascade');
 
             $table->string('first_name');
             $table->string('middle_name')->nullable();
@@ -43,6 +43,6 @@ class CreateLabTechsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('lab_techs');
+        Schema::dropIfExists('lab_technicians');
     }
 }

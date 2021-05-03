@@ -3,40 +3,42 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Admin\Pharmacist;
 use App\Models\Admin\Pharmacy;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PharmacyController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $pharmacies = Pharmacy::all();
+        $pharmacists = User::where('role_id', 5)->get();
+
+        return view('admin.pharmacies.index', compact('pharmacies', 'pharmacists'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return view('admin.pharmacies.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        $data = $request->validate([
+            'name' => 'required',
+            'location' => 'required',
+            'phone' => 'required|unique:pharmacies',
+            'email' => 'required|email|unique:pharmacies',
+            'website' => 'required|unique:pharmacies'
+        ]);
+
+        Pharmacy::create($data);
+
+        return redirect()->route('pharmacies.index')->with('success', 'Pharmacy Added');
     }
 
     /**

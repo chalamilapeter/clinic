@@ -1,33 +1,29 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
-use App\Models\Doctor;
+use App\Http\Controllers\Controller;
+use App\Models\Admin\Lab;
+use App\Models\Admin\LabTechnician;
 use App\Models\User;
-use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class DoctorController extends Controller
+class LabTechnicianController extends Controller
 {
-
-    public function index()
-    {
-        $doctors = Doctor::all();
-        return view('admin.doctors.index', compact('doctors'));
-    }
-
 
     public function create()
     {
-        return view('admin.doctors.create');
-    }
+        $labs = Lab::all();
 
+        return view('admin.lab_technicians.create', compact('labs'));
+    }
 
     public function store(Request $request)
     {
         DB::transaction(function() use ($request) {
+
             $data = $request->validate([
 
                 'email' => 'required|email|unique:users',
@@ -45,23 +41,23 @@ class DoctorController extends Controller
                 'address' => 'required',
                 'image_path' => 'required',
 
-                'speciality' => 'required',
+                'lab_id' => 'required',
 
             ]);
 
             $user = new User;
             $user->email = $data['email'];
-            $user->role_id = 2;
+            $user->role_id = 4;
             $user->password = Hash::make($data['password']);
             $user->save();
 
-            $user->doctor()->create([
-                'speciality' => $data['speciality'],
+            $user->lab_technician()->create([
+                'lab_id'=> $data['lab_id'],
                 'first_name' => $data['first_name'],
                 'middle_name' => $data['middle_name'],
                 'last_name' => $data['last_name'],
                 'gender' => $data['gender'],
-                'birth_date' => Carbon::make($data['birth_date']),
+                'birth_date' => $data['birth_date'],
                 'nationality' => $data['nationality'],
                 'phone_1' => $data['phone_1'],
                 'phone_2' => $data['phone_2'],
@@ -70,16 +66,16 @@ class DoctorController extends Controller
             ]);
         });
 
-        return back()->with('success', 'Doctor created successfully');
+        return redirect()->route('labs.index')->with('success', 'Technician created successfully');
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Doctor  $doctor
+     * @param  \App\Models\Admin\LabTechnician  $labTechnician
      * @return \Illuminate\Http\Response
      */
-    public function show(Doctor $doctor)
+    public function show(LabTechnician $labTechnician)
     {
         //
     }
@@ -87,10 +83,10 @@ class DoctorController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Doctor  $doctor
+     * @param  \App\Models\Admin\LabTechnician  $labTechnician
      * @return \Illuminate\Http\Response
      */
-    public function edit(Doctor $doctor)
+    public function edit(LabTechnician $labTechnician)
     {
         //
     }
@@ -99,10 +95,10 @@ class DoctorController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Doctor  $doctor
+     * @param  \App\Models\Admin\LabTechnician  $labTechnician
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Doctor $doctor)
+    public function update(Request $request, LabTechnician $labTechnician)
     {
         //
     }
@@ -110,10 +106,10 @@ class DoctorController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Doctor  $doctor
+     * @param  \App\Models\Admin\LabTechnician  $labTechnician
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Doctor $doctor)
+    public function destroy(LabTechnician $labTechnician)
     {
         //
     }

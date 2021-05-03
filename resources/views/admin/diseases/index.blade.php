@@ -58,7 +58,7 @@
                            @endforeach
                        @else
                            <tr class="text-center">
-                               <td colspan="6">No Patients yet!</td>
+                               <td colspan="6">No Diseases yet!</td>
                            </tr>
                        @endif
                     </tbody>

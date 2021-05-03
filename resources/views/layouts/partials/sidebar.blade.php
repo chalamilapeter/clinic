@@ -57,7 +57,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" >
+                <a class="nav-link collapsed" href="{{route('labs.index')}}" >
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Labs</span>
                 </a>
@@ -65,7 +65,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" >
+                <a class="nav-link collapsed" href="{{route('pharmacies.index')}}" >
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Pharmacies</span>
                 </a>

@@ -16,7 +16,7 @@ class CreateDiagnosesTable extends Migration
         Schema::create('diagnoses', function (Blueprint $table) {
             $table->id();
             $table->foreignId('complaint_id')->constrained('complaints')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('lab_id')->constrained('labs')->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('lab_id')->constrained('labs')->onUpdate('cascade');
             $table->text('tests')->nullable();
             $table->longText('description');
 

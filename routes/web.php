@@ -34,6 +34,9 @@ Route::group(['middleware' => 'auth'], function(){
         Route::resource('diseases', \App\Http\Controllers\Admin\DiseaseController::class);
         Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class);
         Route::resource('labs', \App\Http\Controllers\Admin\LabController::class);
+        Route::resource('lab_technicians', \App\Http\Controllers\Admin\LabTechnicianController::class);
+        Route::resource('pharmacies', \App\Http\Controllers\Admin\PharmacyController::class);
+        Route::resource('pharmacists', \App\Http\Controllers\Admin\PharmacistController::class);
 
     });
 

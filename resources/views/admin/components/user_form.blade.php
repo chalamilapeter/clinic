@@ -1,12 +1,19 @@
 <form class="user" action="
     @if(Request::segment(2) == 'patients')
         {{route('patients.store')}}
+
     @elseif(Request::segment(2) == 'doctors')
     {{route('doctors.store')}}
+
+    @elseif(Request::segment(2) == 'lab_technicians')
+    {{route('lab_technicians.store')}}
+
+    @elseif(Request::segment(2) == 'pharmacists')
+    {{route('pharmacists.store')}}
+
     @endif
     "method="POST">
     @csrf
-    @yield('form-method')
 
     <div class="row">
 

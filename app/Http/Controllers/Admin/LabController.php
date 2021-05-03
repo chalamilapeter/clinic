@@ -4,39 +4,40 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Admin\Lab;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LabController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $labs = Lab::all();
+        $lab_techs = User::where('role_id', 4)->get();
+
+        return view('admin.labs.index', compact('labs', 'lab_techs'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return view('admin.labs.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
-        //
+       $data = $request->validate([
+           'name' => 'required',
+           'location' => 'required',
+           'phone' => 'required|unique:labs',
+           'email' => 'required|email|unique:labs',
+           'website' => 'required|unique:labs'
+       ]);
+
+       Lab::create($data);
+
+       return redirect()->route('labs.index')->with('success', 'Laboratory Added');
     }
 
     /**

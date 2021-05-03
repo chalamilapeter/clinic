@@ -18,8 +18,8 @@ class CreateLabsTable extends Migration
             $table->string('name');
             $table->string('location');
             $table->string('phone');
-            $table->integer('email');
-            $table->string('website');
+            $table->string('email');
+            $table->string('website')->nullable();
             $table->timestamps();
         });
     }
