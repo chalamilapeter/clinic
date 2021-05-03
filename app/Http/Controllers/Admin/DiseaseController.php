@@ -8,35 +8,32 @@ use Illuminate\Http\Request;
 
 class DiseaseController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $diseases = Disease::all();
+
+        return view('admin.diseases.index', compact('diseases'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
-        //
+        return view('admin.diseases.create');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+       $data = $request->validate([
+           'common_name' => 'required',
+           'scientific_name' => 'required',
+           'months_interval' => 'required'
+       ]);
+
+       Disease::create($data);
+
+       return redirect()->route('diseases.index')->with('success', 'New disease added');
     }
 
     /**
@@ -73,14 +70,11 @@ class DiseaseController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Admin\Disease  $disease
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(Disease $disease)
     {
-        //
+        $disease->delete();
+
+        return back()->with('success', 'Desease Deleted!');
     }
 }

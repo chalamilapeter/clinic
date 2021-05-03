@@ -31,6 +31,9 @@ Route::group(['middleware' => 'auth'], function(){
         Route::view('dashboard', 'admin.index')->name('admin.index');
         Route::resource('patients', \App\Http\Controllers\PatientController::class);
         Route::resource('doctors', \App\Http\Controllers\DoctorController::class);
+        Route::resource('diseases', \App\Http\Controllers\Admin\DiseaseController::class);
+        Route::resource('roles', \App\Http\Controllers\Admin\RoleController::class);
+        Route::resource('labs', \App\Http\Controllers\Admin\LabController::class);
 
     });
 

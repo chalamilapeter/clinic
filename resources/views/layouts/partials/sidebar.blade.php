@@ -41,7 +41,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" >
+                <a class="nav-link collapsed" href="{{route('diseases.index')}}" >
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Diseases</span>
                 </a>
@@ -49,7 +49,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link collapsed" href="#" >
+                <a class="nav-link collapsed" href="{{route('roles.index')}}" >
                     <i class="fas fa-fw fa-cog"></i>
                     <span>Roles</span>
                 </a>
