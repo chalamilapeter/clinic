@@ -1,23 +1,18 @@
 @extends('layouts.common')
 
 @section('page-title')
-    Patients - Doctor
+    Lab Results - Doctor
 @endsection
 
-
-@include('doctor.components.profile')
-
+@section('image')
+    <img class="img-profile rounded-circle" src="{{asset('img/undraw_profile.svg')}}">
+@endsection
 
 
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3 text-center">
-            <h6 class="m-0 font-weight-bold text-primary">List of patients you are attending (Total :
-                @if($doctor_patients->count()>0)
-                {{$doctor_patients->count()}})
-                @else
-                    0)
-                @endif</h6>
+            <h6 class="m-0 font-weight-bold text-primary">List of patients you are attending</h6>
         </div>
         <div class="card-body text-center" >
             <div class="table-responsive">
@@ -26,8 +21,8 @@
                     <tr>
                         <th>Name</th>
                         <th>Disease</th>
-                        <th>Age (years)</th>
-                        <th>Appointment date (each month)</th>
+                        <th>Age</th>
+                        <th>Appointment date</th>
                         <th>Gender</th>
                         <th>Actions</th>
                     </tr>
@@ -39,8 +34,8 @@
                             <tr>
                                 <td>{{$patient->first_name.' '.$patient->last_name}}</td>
                                 <td>{{$patient->disease->common_name}}</td>
-                                <td>{{date('Y')-date('Y', strtotime($patient->birth_date))}}</td>
-                                <td>{{date('d ', strtotime($patient->appointment_date))}}</td>
+                                <td>{{$patient->birth_date}}</td>
+                                <td>{{$patient->appointment_date}}</td>
                                 <td>{{$patient->gender}}</td>
                                 <td>
                                     <a href="{{route('patients.show', $patient)}}" class="badge badge-info badge-sm">

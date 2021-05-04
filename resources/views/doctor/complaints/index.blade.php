@@ -4,10 +4,7 @@
     Complaints- Doctor
 @endsection
 
-@section('image')
-    <img class="img-profile rounded-circle" src="{{asset('img/undraw_profile.svg')}}">
-@endsection
-
+@include('doctor.components.profile')
 
 @section('content')
     <div class="card shadow mb-4">
@@ -24,6 +21,7 @@
                         <th>Disease</th>
                         <th>Age</th>
                         <th>Appointment date</th>
+                        <th>Diagnosis status</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -35,8 +33,14 @@
                                 <td>{{+1}}</td>
                                 <td>{{$complaint->user->patient->first_name.' '.$complaint->user->patient->last_name}}</td>
                                 <td>{{$complaint->user->patient->disease->common_name}}</td>
-                                <td>{{$complaint->user->patient->birth_date}}</td>
+                                <td>{{date('Y') - date('Y', strtotime($complaint->user->patient->birth_date))}}</td>
                                 <td>{{$complaint->user->patient->appointment_date}}</td>
+                                <td>
+                                    @if($complaint->status == 'undiagnosed')
+
+                                    @else
+                                    @endif
+                                </td>
                                 <td>
                                     <a href="{{route('complaints.show', $complaint)}}" class="badge badge-info badge-sm">
                                         <small> <i class="fas fa-eye"></i></small>
@@ -46,7 +50,7 @@
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="6">No Patients yet!</td>
+                            <td colspan="6">No Complaints yet!</td>
                         </tr>
                     @endif
                     </tbody>

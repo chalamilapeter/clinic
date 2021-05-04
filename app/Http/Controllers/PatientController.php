@@ -41,6 +41,7 @@ class PatientController extends Controller
 
     public function store(Request $request)
     {
+
         DB::transaction(function() use ($request) {
             $data = $request->validate([
                 'email' => 'required|email|unique:users',
@@ -55,7 +56,7 @@ class PatientController extends Controller
                 'phone_1' => 'required|unique:patients',
                 'phone_2' => 'required|unique:patients',
                 'address' => 'required',
-                'image_path' => 'required',
+                'image_path' => 'required|image|max:2048',
                 'disease_id' => 'required',
                 'doctor_id' => 'required',
                 'appointment_date' => 'required',
@@ -66,6 +67,13 @@ class PatientController extends Controller
             $user->role_id = 3;
             $user->password = Hash::make($data['password']);
             $user->save();
+
+
+            $file = $request->first_name . "-" . $request->last_name ."-".uniqid() ."-". 'profile_img' . '.' . $request->image_path->extension();
+
+            $request->image_path->move(public_path() . '/img/patients', $file);
+
+            $path = '/img/patients/'.$file;
 
             $user->patient()->create([
                 'disease_id' => $data['disease_id'],
@@ -78,7 +86,7 @@ class PatientController extends Controller
                 'nationality' => $data['nationality'],
                 'phone_1' => $data['phone_1'],
                 'phone_2' => $data['phone_2'],
-                'image_path' => 'img/test.jpg',
+                'image_path' => $path,
                 'address' => $data['address'],
                 'appointment_date' => $data['appointment_date'],
             ]);

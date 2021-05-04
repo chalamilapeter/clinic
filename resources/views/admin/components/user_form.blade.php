@@ -12,7 +12,7 @@
     {{route('pharmacists.store')}}
 
     @endif
-    "method="POST">
+    "method="POST" enctype="multipart/form-data">
     @csrf
 
     <div class="row">
@@ -189,7 +189,7 @@
 
                         <div class="col-md-6">
                             <label for="">Profile Image</label>
-                            <input type="file" name="image_path" value="{{old('image_path')}}" class=" @error('image_path') is-invalid @enderror">
+                            <input type="file" name="image_path" class=" @error('image_path') is-invalid @enderror">
                             @error('image_path')
                             <span class="invalid-feedback" role="alert">
                                 <strong>{{ $message }}</strong>

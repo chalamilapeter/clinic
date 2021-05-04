@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateComplaintsTable extends Migration
+class CreateLabResultsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,12 @@ class CreateComplaintsTable extends Migration
      */
     public function up()
     {
-        Schema::create('complaints', function (Blueprint $table) {
+        Schema::create('lab_results', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('diagnosis_id')->constrained('diagnoses')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('doctor_id')->unsigned();
-            $table->longText('message');
-            $table->string('status')->default('undiagnosed');
-
-            $table->index('user_id');
+            $table->string('test_document');
+            $table->longText('remarks')->nullable();
             $table->timestamps();
         });
     }
@@ -32,6 +30,6 @@ class CreateComplaintsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('complaints');
+        Schema::dropIfExists('lab_results');
     }
 }

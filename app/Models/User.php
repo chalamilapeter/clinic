@@ -72,4 +72,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Complaint::class);
     }
+
+    public function diagnosis()
+    {
+        return $this->hasMany(Diagnosis::class);
+    }
 }

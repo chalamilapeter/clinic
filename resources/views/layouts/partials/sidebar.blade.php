@@ -127,7 +127,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " href="{{route('blank')}}" >
+                <a class="nav-link " href="{{route('diagnosis.index')}}" >
                     <i class="fas fa-syringe"></i>
                     <span>Diagnosis</span>
                 </a>
@@ -150,7 +150,7 @@
     @elseif(auth()->user()->role->name  == 'Lab Technician')
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
-            <a class="nav-link" href="{{route('blank')}}">
+            <a class="nav-link" href="{{route('lab_tech.index')}}">
                 <i class="fas fa-fw fa-tachometer-alt"></i>
                 <span>Dashboard</span></a>
         </li>
@@ -160,13 +160,13 @@
 
         <!-- Nav Item - Pages Collapse Menu -->
         <li class="nav-item">
-            <a class="nav-link " href="{{route('blank')}}" >
+            <a class="nav-link " href="{{route('lab_tech.create')}}" >
                 <i class="fas fa-fw fa-cog"></i>
                 <span>Diagnosis</span>
             </a>
         </li>
 
-    @elseif(auth()->user()->role->name  == 'Pharmacian')
+    @elseif(auth()->user()->role->name  == 'Pharmacist')
         <!-- Nav Item - Dashboard -->
         <li class="nav-item active">
             <a class="nav-link" href="{{route('blank')}}">
@@ -184,6 +184,13 @@
                 <span>Prescriptions</span>
             </a>
         </li>
+    @else
+            <li class="nav-item">
+                <a class="nav-link " href="#" >
+                    <i class="fas fa-fw fa-cog"></i>
+                    <span>404</span>
+                </a>
+            </li>
     @endif
 
     <!-- Divider -->

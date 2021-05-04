@@ -39,7 +39,7 @@ class LabTechnicianController extends Controller
                 'phone_1' => 'required|unique:patients',
                 'phone_2' => 'required|unique:patients',
                 'address' => 'required',
-                'image_path' => 'required',
+                'image_path' => 'required|image|max:2048',
 
                 'lab_id' => 'required',
 
@@ -51,6 +51,12 @@ class LabTechnicianController extends Controller
             $user->password = Hash::make($data['password']);
             $user->save();
 
+            $file = $request->first_name . "-" . $request->last_name ."-".uniqid() ."-". 'profile_img' . '.' . $request->image_path->extension();
+
+            $request->image_path->move(public_path() . '/img/lab_technicians', $file);
+
+            $path = '/img/lab_technicians/'.$file;
+
             $user->lab_technician()->create([
                 'lab_id'=> $data['lab_id'],
                 'first_name' => $data['first_name'],
@@ -61,7 +67,7 @@ class LabTechnicianController extends Controller
                 'nationality' => $data['nationality'],
                 'phone_1' => $data['phone_1'],
                 'phone_2' => $data['phone_2'],
-                'image_path' => 'img/test.jpg',
+                'image_path' => $path,
                 'address' => $data['address'],
             ]);
         });

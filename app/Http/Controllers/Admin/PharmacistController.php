@@ -39,7 +39,7 @@ class PharmacistController extends Controller
                 'phone_1' => 'required|unique:patients',
                 'phone_2' => 'required|unique:patients',
                 'address' => 'required',
-                'image_path' => 'required',
+                'image_path' => 'required|image|max:2048',
 
                 'pharmacy_id' => 'required',
 
@@ -51,6 +51,12 @@ class PharmacistController extends Controller
             $user->password = Hash::make($data['password']);
             $user->save();
 
+            $file = $request->first_name . "-" . $request->last_name ."-".uniqid() ."-". 'profile_img' . '.' . $request->image_path->extension();
+
+            $request->image_path->move(public_path() . '/img/pharmacists', $file);
+
+            $path = '/img/pharmacists/'.$file;
+
             $user->pharmacist()->create([
                 'pharmacy_id'=> $data['pharmacy_id'],
                 'first_name' => $data['first_name'],
@@ -61,7 +67,7 @@ class PharmacistController extends Controller
                 'nationality' => $data['nationality'],
                 'phone_1' => $data['phone_1'],
                 'phone_2' => $data['phone_2'],
-                'image_path' => 'img/test.jpg',
+                'image_path' => $path,
                 'address' => $data['address'],
             ]);
         });

@@ -8,9 +8,8 @@
     Complaints - Patient
 @endsection
 
-@section('image')
-    <img class="img-profile rounded-circle" src="{{asset('img/undraw_profile.svg')}}">
-@endsection
+@include('patient.components.profile')
+
 
 
 @section('content')

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\Lab;
 use App\Models\Complaint;
 use Illuminate\Http\Request;
 
@@ -59,8 +60,8 @@ class ComplaintController extends Controller
 
     public function show(Complaint $complaint)
     {
-
-        return view('doctor.complaints.show', compact($complaint));
+        $labs = Lab::all();
+        return view('doctor.complaints.show', compact('complaint', 'labs'));
     }
 
     /**

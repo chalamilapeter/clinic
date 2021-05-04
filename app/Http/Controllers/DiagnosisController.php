@@ -2,19 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Complaint;
 use App\Models\Diagnosis;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DiagnosisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        $diagnosis = Diagnosis::all();
+
+        return view('patient.diagnosis.index', compact('diagnosis'));
     }
 
     /**
@@ -27,26 +27,36 @@ class DiagnosisController extends Controller
         //
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+
     public function store(Request $request)
     {
-        //
+        DB::transaction(function() use ($request) {
+            $data = $request->validate([
+                'user_id' =>'',
+                'complaint_id' => '',
+                'medication' => 'required',
+                'tests' => 'required',
+                'critical' => 'required',
+                'message' => 'required',
+                'lab_id'=> '',
+                'required_tests' => '',
+                'medication_description' => '',
+            ]);
+            Diagnosis::create($data);
+
+            $complaint = Complaint::find($data['complaint_id']);
+
+            $complaint->update(['status' => 'diagnosed']);
+        });
+
+        return back()->with('success', 'Complaint Diagnosed!');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Diagnosis  $diagnosis
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Diagnosis $diagnosis)
+
+    public function show($diag)
     {
-        //
+        $diagnosis = Diagnosis::find($diag);
+        return view('patient.diagnosis.show', compact('diagnosis'));
     }
 
     /**

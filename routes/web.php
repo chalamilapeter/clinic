@@ -25,6 +25,8 @@ Route::group(['middleware' => 'auth'], function(){
 
     //Shared Routes
     Route::resource('complaints', \App\Http\Controllers\ComplaintController::class);
+    Route::resource('diagnosis', \App\Http\Controllers\DiagnosisController::class);
+    Route::resource('lab_results', \App\Http\Controllers\LabResultController::class);
 
     //Admin Routes
     Route::group(['prefix' => 'admin','middleware'=>'role:Admin'], function(){
@@ -49,6 +51,11 @@ Route::group(['middleware' => 'auth'], function(){
     //Patient Routes
     Route::group(['prefix' => 'patient', 'middleware'=>'role:Patient'], function(){
         Route::view('dashboard', 'patient.index')->name('patient.index');
+    });
+
+    //Lab Technician Routes
+    Route::group(['middleware' => 'role:Lab Technician'], function(){
+        Route::resource('lab_tech', \App\Http\Controllers\LabTechnician\LabTechnicianController::class);
     });
 
 });

@@ -39,6 +39,12 @@ class LoginController extends Controller
             case 'Patient':
                 return $this->redirectTo = route('patient.index');
                 break;
+            case 'Lab Technician':
+                return $this->redirectTo = route('lab_tech.index');
+                break;
+            case 'Pharmacist':
+                return $this->redirectTo = route('pharmacist.index');
+                break;
             default:
                 return '/';
                 break;

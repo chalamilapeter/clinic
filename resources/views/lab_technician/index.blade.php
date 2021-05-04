@@ -1,10 +1,10 @@
 @extends('layouts.common')
 
 @section('page-title')
-    Patient
+    Lab Technician
 @endsection
 
-@include('patient.components.profile')
+@include('lab_technician.components.profile')
 
 @section('content')
     <div class="container">
