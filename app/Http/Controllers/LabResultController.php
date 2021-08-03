@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Diagnosis;
 use App\Models\LabResult;
+use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
 
 class LabResultController extends Controller
@@ -65,7 +66,7 @@ class LabResultController extends Controller
      * @param  \App\Models\LabResult  $labResult
      * @return \Illuminate\Http\Response
      */
-    public function show(LabResult $labResult)
+    public function show($labResult)
     {
         //
     }
@@ -93,14 +94,20 @@ class LabResultController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\LabResult  $labResult
-     * @return \Illuminate\Http\Response
-     */
+
     public function destroy(LabResult $labResult)
     {
         //
+    }
+
+    public function download($id)
+    {
+        $file = public_path()."/documents/".$id;
+
+        $header = array(
+            'Content-type: application/pdf',
+        );
+
+        return Response::download($file);
     }
 }

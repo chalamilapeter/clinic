@@ -3,10 +3,10 @@
     <!-- Sidebar - Brand -->
     <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
         <div class="sidebar-brand-icon">
-            <img src="{{asset('img/dash_icon.svg')}}" alt="" width="50px">
+            <img src="{{asset('img/dash_icon.svg')}}" alt="" width="60px">
         </div>
         <div class="sidebar-brand-text mx-3">
-            <img src="{{asset('img/words.svg')}}" alt="" width="100px">
+            <img src="{{asset('img/words.svg')}}" alt="" width="90px">
         </div>
     </a>
 
@@ -15,30 +15,18 @@
 
     @if (auth()->user()->role->name  == 'Admin')
         <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="{{route('blank')}}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Nav Item - Pages Collapse Menu -->
+            <!-- Nav Item - Pages Collapse Menu -->4
             <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('patients.index')}}" >
+                <a class="nav-link collapsed" href="{{route('users.index')}}" >
                     <i class="fas fa-fw fa-cog"></i>
-                    <span>Patients</span>
+                    <span>Users</span>
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link collapsed" href="{{route('doctors.index')}}" >
-                    <i class="fas fa-fw fa-cog"></i>
-                    <span>Doctors</span>
-                </a>
-
-            </li>
 
             <li class="nav-item">
                 <a class="nav-link collapsed" href="{{route('diseases.index')}}" >
@@ -75,11 +63,6 @@
 
     @elseif(auth()->user()->role->name  == 'Doctor')
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="{{route('blank')}}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span></a>
-        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider">
@@ -94,26 +77,22 @@
 
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{route('complaints.index')}}">
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Complaints</span>
+                <i class="fas fa-syringe"></i>
+                <span>Diagnoses</span>
             </a>
         </li>
 
         <li class="nav-item">
-            <a class="nav-link collapsed" href="#" >
-                <i class="fas fa-fw fa-wrench"></i>
-                <span>Lab Results</span>
+            <a class="nav-link collapsed" href="{{route('diagnosis.index')}}" >
+                <i class="fas fa-poll-h"></i>
+                <span>Final results</span>
             </a>
         </li>
+
 
     @elseif(auth()->user()->role->name  == 'Patient')
 
         <!-- Nav Item - Dashboard -->
-            <li class="nav-item active">
-                <a class="nav-link" href="{{route('blank')}}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
@@ -149,11 +128,6 @@
 
     @elseif(auth()->user()->role->name  == 'Lab Technician')
         <!-- Nav Item - Dashboard -->
-        <li class="nav-item active">
-            <a class="nav-link" href="{{route('lab_tech.index')}}">
-                <i class="fas fa-fw fa-tachometer-alt"></i>
-                <span>Dashboard</span></a>
-        </li>
 
         <!-- Divider -->
         <hr class="sidebar-divider">

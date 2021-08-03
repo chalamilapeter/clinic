@@ -4,7 +4,9 @@
 
 
     <div class="row">
-        <div class="col-lg-6 d-none d-lg-block bg-password-image"></div>
+        <div class="col-lg-6 d-none d-lg-block">
+            <img src="{{asset('img/forgot.svg')}}" width="500px"  alt="" class="p-3 mt-4">
+        </div>
         <div class="col-lg-6">
             <div class="p-5">
                 @if (session('status'))
@@ -26,8 +28,8 @@
 
                             @error('email')
                             <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
+                                <strong>{{ $message }}</strong>
+                            </span>
                             @enderror
                     </div>
                     <button type="submit" class="btn btn-primary btn-user btn-block">

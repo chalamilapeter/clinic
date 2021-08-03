@@ -10,7 +10,7 @@
         <meta name="author" content="">
         <link rel="shortcut icon" href="{{asset('img/icon.svg')}}" />
         <title>
-            @yield('page-title') | Nyumbani Clinic
+            @yield('page-title') | Clinic at Home
         </title>
 
         <!-- Custom fonts for this template-->

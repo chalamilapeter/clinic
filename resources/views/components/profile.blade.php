@@ -1,3 +1,23 @@
+@section('css')
+    <link rel="stylesheet" href="{{asset('css/profile.css')}}">
+@endsection
+
+
+@php
+$user = '';
+@endphp
+@if(auth()->user()->role->name == 'Patient')
+   @php $user = 'patient'; @endphp
+@elseif(auth()->user()->role->name == 'Doctor')
+    @php $user = 'doctor'; @endphp
+@elseif(auth()->user()->role->name == 'Lab Technician')
+    @php $user = 'lab_technician'; @endphp
+@elseif(auth()->user()->role->name == 'Pharmacist')
+    <img src="{{asset('img/pharmacists/'.auth()->user()->pharmacist->image_path)}}" alt="Admin" class="rounded-circle" width="150">
+@else
+    <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+@endif
+
 <div class="container">
     <div class="main-body">
 
@@ -6,7 +26,19 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex flex-column align-items-center text-center">
-                            <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                            @if(auth()->user()->role->name == 'Admin')
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                            @elseif(auth()->user()->role->name == 'Patient')
+                                <img src="{{asset('img/patients/'.auth()->user()->patient->image_path)}}" alt="Admin" class="rounded-circle" width="150">
+                            @elseif(auth()->user()->role->name == 'Doctor')
+                                <img src="{{asset('img/doctors/'.auth()->user()->doctor->image_path)}}" alt="Admin" class="rounded-circle" width="150">
+                            @elseif(auth()->user()->role->name == 'Lab Technician')
+                                <img src="{{asset('img/lab_technicians/'.auth()->user()->lab_technician->image_path)}}" alt="Admin" class="rounded-circle" width="150">
+                            @elseif(auth()->user()->role->name == 'Pharmacist')
+                                <img src="{{asset('img/pharmacists/'.auth()->user()->pharmacist->image_path)}}" alt="Admin" class="rounded-circle" width="150">
+                            @else
+                                <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="Admin" class="rounded-circle" width="150">
+                            @endif
                             <div class="mt-3">
                                 <h4>John Doe</h4>
                                 <p class="text-secondary mb-1">Full Stack Developer</p>

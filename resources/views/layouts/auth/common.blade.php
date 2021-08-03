@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="shortcut icon" href="{{asset('img/icon.svg')}}" />
-    <title>Nyumbani clinic - Login</title>
+    <title>Clinic at Home - Login</title>
 
     <!-- Custom fonts for this template-->
     <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
@@ -32,10 +32,11 @@
         <div class="col-xl-10 col-lg-12 col-md-9">
 
             <div class="text-center text-white mt-5">
-                <img src="{{asset('img/logo.svg')}}" class="w-25" alt="">
+                <img src="{{asset('img/logo.svg')}}" style="width: 200px" alt="">
+                <h3 class="my-3 font-weight-bold" >Online Clinic Module for Long-term diseases</h3>
             </div>
 
-            <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card o-hidden border-0 shadow-lg ">
                 <div class="card-body p-0">
                     @yield('auth-content')
                 </div>

@@ -10,11 +10,8 @@
 
 @section('image')
 
-    @if(auth()->user()->doctor->image_path != null)
-        <img class="img-profile rounded-circle" src="{{asset(auth()->user()->doctor->image_path)}}">
-    @else
-        <img class="img-profile rounded-circle" src="{{asset('img/undraw_profile.svg')}}">
-    @endif
+
+<img class="img-profile rounded-circle" src="{{asset('img/undraw_profile.svg')}}">
 
 @endsection
 

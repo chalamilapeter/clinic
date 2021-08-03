@@ -72,7 +72,7 @@ class PharmacistController extends Controller
             ]);
         });
 
-        return redirect()->route('pharmacies.index')->with('success', 'Pharmacist created successfully');
+        return back()->with('success', 'Pharmacist created successfully');
     }
 
     /**

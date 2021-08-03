@@ -17,7 +17,7 @@ class ComplaintController extends Controller
             }
             else {
 
-                $complaints = Complaint::where('doctor_id', auth()->id())->get();
+                $complaints = Complaint::where('doctor_id', auth()->id())->latest()->paginate(5);
                 return view('doctor.complaints.index', compact('complaints'));
             }
         }

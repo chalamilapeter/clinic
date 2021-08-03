@@ -21,7 +21,7 @@
                         <th>Disease</th>
                         <th>Age</th>
                         <th>Appointment date</th>
-                        <th>Diagnosis status</th>
+                        <th>Status</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -30,15 +30,16 @@
                     @if ($complaints->count()>0)
                         @foreach($complaints as $complaint)
                             <tr>
-                                <td>{{+1}}</td>
+                                <td>{{$loop->iteration}}</td>
                                 <td>{{$complaint->user->patient->first_name.' '.$complaint->user->patient->last_name}}</td>
                                 <td>{{$complaint->user->patient->disease->common_name}}</td>
                                 <td>{{date('Y') - date('Y', strtotime($complaint->user->patient->birth_date))}}</td>
-                                <td>{{$complaint->user->patient->appointment_date}}</td>
+                                <td>{{date('d M Y', strtotime($complaint->created_at))}}</td>
                                 <td>
-                                    @if($complaint->status == 'undiagnosed')
-
+                                    @if($complaint->status == 'diagnosed')
+                                        <div class="badge badge-success">Diagnosed</div>
                                     @else
+                                        <div class="badge badge-danger">undiagnosed</div>
                                     @endif
                                 </td>
                                 <td>
@@ -55,6 +56,9 @@
                     @endif
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center mt-2">
+                    {{$complaints->links()}}
+                </div>
             </div>
         </div>
     </div>

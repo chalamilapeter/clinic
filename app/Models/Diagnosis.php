@@ -26,4 +26,9 @@ class Diagnosis extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function lab_result()
+    {
+        return $this->hasOne(LabResult::class);
+    }
 }

@@ -72,7 +72,7 @@ class LabTechnicianController extends Controller
             ]);
         });
 
-        return redirect()->route('labs.index')->with('success', 'Technician created successfully');
+        return back()->with('success', 'Technician created successfully');
     }
 
     /**

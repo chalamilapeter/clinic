@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Complaint;
 use App\Models\Diagnosis;
+use App\Models\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,21 +13,31 @@ class DiagnosisController extends Controller
 
     public function index()
     {
-        $diagnosis = Diagnosis::all();
+        if (auth()->user()->role->name == "Patient" || auth()->user()->role->name == "Admin" || auth()->user()->role->name == "Doctor")
+        {
+            if(auth()->user()->role->name == "Patient")
+            {
+                $diagnosis = Diagnosis::where('patient_id',auth()->id())->get();
 
-        return view('patient.diagnosis.index', compact('diagnosis'));
+                return view('patient.diagnosis.index', compact('diagnosis'));
+            }
+            elseif(auth()->user()->role->name == "Admin")
+            {
+                $diagnoses = Diagnosis::all();
+
+                return view('admin.diagnosis.index', compact('diagnoses'));
+            }
+            else
+            {
+                $diagnoses = Diagnosis::where('user_id', auth()->id())->latest()->paginate(5);
+
+                return view('doctor.diagnosis.index', compact('diagnoses'));
+            }
+        }
+        else{
+            abort (403);
+        }
     }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
 
     public function store(Request $request)
     {
@@ -34,6 +45,7 @@ class DiagnosisController extends Controller
             $data = $request->validate([
                 'user_id' =>'',
                 'complaint_id' => '',
+                'patient_id' => '',
                 'medication' => 'required',
                 'tests' => 'required',
                 'critical' => 'required',
@@ -50,6 +62,7 @@ class DiagnosisController extends Controller
         });
 
         return back()->with('success', 'Complaint Diagnosed!');
+
     }
 
 

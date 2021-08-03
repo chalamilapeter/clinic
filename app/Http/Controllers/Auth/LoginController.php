@@ -31,16 +31,16 @@ class LoginController extends Controller
         $role = auth()->user()->role->name;
         switch ($role){
             case 'Admin':
-                return $this->redirectTo = route('admin.index');
+                return $this->redirectTo = route('users.index');
                 break;
             case 'Doctor':
-                return $this->redirectTo = route('doctor.index');
+                return $this->redirectTo = route('doctor.patients.index');
                 break;
             case 'Patient':
-                return $this->redirectTo = route('patient.index');
+                return $this->redirectTo = route('complaints.index');
                 break;
             case 'Lab Technician':
-                return $this->redirectTo = route('lab_tech.index');
+                return $this->redirectTo = route('lab_tech.create');
                 break;
             case 'Pharmacist':
                 return $this->redirectTo = route('pharmacist.index');

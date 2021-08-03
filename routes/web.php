@@ -27,10 +27,13 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('complaints', \App\Http\Controllers\ComplaintController::class);
     Route::resource('diagnosis', \App\Http\Controllers\DiagnosisController::class);
     Route::resource('lab_results', \App\Http\Controllers\LabResultController::class);
+    Route::get('lab_results_download/{id}', [\App\Http\Controllers\LabResultController::class, 'download'])->name('download.lab-result');
+    Route::resource('results', \App\Http\Controllers\ResultControler::class);
 
     //Admin Routes
     Route::group(['prefix' => 'admin','middleware'=>'role:Admin'], function(){
         Route::view('dashboard', 'admin.index')->name('admin.index');
+        Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
         Route::resource('patients', \App\Http\Controllers\PatientController::class);
         Route::resource('doctors', \App\Http\Controllers\DoctorController::class);
         Route::resource('diseases', \App\Http\Controllers\Admin\DiseaseController::class);
@@ -61,6 +64,5 @@ Route::group(['middleware' => 'auth'], function(){
 });
 
 //Test routes
-Route::get('/test', [App\Http\Controllers\HomeController::class, 'test'])->name('test');
 Route::get('/blank', [App\Http\Controllers\HomeController::class, 'blank'])->name('blank');
 

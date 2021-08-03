@@ -13,7 +13,7 @@ class PharmacyController extends Controller
 
     public function index()
     {
-        $pharmacies = Pharmacy::all();
+        $pharmacies = Pharmacy::paginate(20);
         $pharmacists = User::where('role_id', 5)->get();
 
         return view('admin.pharmacies.index', compact('pharmacies', 'pharmacists'));

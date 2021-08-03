@@ -18,6 +18,7 @@
                     <th>Patient</th>
                     <th>Doctor</th>
                     <th>Date</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -31,6 +32,13 @@
                             <td>{{$diag->complaint->user->patient->first_name." ".$diag->complaint->user->patient->last_name}}</td>
                             <td>Dr. {{$diag->user->doctor->first_name." ".$diag->user->doctor->last_name}}</td>
                             <td>{{date('d M Y' , strtotime($diag->created_at))}}</td>
+                            <td>
+                                @if($diag->lab_result)
+                                    <div class="badge badge-success">Tested</div>
+                                @else
+                                    <div class="badge badge-danger">untested</div>
+                                @endif
+                            </td>
                             <td>
                                 <a href="{{route('lab_tech.show', $diag)}}" class="badge badge-info badge-sm">
                                     <small> <i class="fas fa-eye"></i></small>

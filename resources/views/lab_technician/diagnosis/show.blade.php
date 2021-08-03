@@ -37,36 +37,42 @@
                 <h6 class="m-0 font-weight-bold text-primary">Diagnosis Results</h6>
             </div>
             <div class="card-body">
-                <form action="{{route('lab_results.store')}}" method="post" enctype="multipart/form-data">
-                    @csrf
-                    <div class="form-group">
-                       <div>
-                           <input type="hidden" name="diagnosis_id" value="{{$diagnosis->id}}">
-                           <input type="hidden" name="user_id" value="{{auth()->id()}}">
-                           <label for="">Upload test results document</label>
-                           <small class="font-italic">(File type: pdf, Max size: 2MB)</small> <br>
-                           <input type="file" name="test_document" id="" class="@error('test_document') is-invalid @enderror">
-                           @error('test_document')
-                           <span class="invalid-feedback" role="alert">
+                @if($diagnosis->lab_result)
+                    <div class="d-flex align-items-center justify-content-center">
+                        <h3>Diagnosis already tested!</h3>
+                    </div>
+                @else
+                    <form action="{{route('lab_results.store')}}" method="post" enctype="multipart/form-data" id="lab_results_form">
+                        @csrf
+                        <div class="form-group">
+                            <div>
+                                <input type="hidden" name="diagnosis_id" value="{{$diagnosis->id}}">
+                                <input type="hidden" name="user_id" value="{{auth()->id()}}">
+                                <label for="">Upload test results document</label>
+                                <small class="font-italic">(File type: pdf, Max size: 2MB)</small> <br>
+                                <input type="file" name="test_document" id="" class="@error('test_document') is-invalid @enderror">
+                                @error('test_document')
+                                <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
-                           @enderror
-                       </div>
+                                @enderror
+                            </div>
 
-                        <div class="pt-4">
-                            <label for="">Remarks, Comments</label> <br>
-                            <textarea name="remarks" id="" class="form-control @error('remarks') is-invalid @enderror" cols="30" rows="5"></textarea>
-                            @error('remarks')
-                            <span class="invalid-feedback" role="alert">
+                            <div class="pt-4">
+                                <label for="">Remarks, Comments</label> <br>
+                                <textarea name="remarks" id="" class="form-control @error('remarks') is-invalid @enderror" cols="30" rows="5"></textarea>
+                                @error('remarks')
+                                <span class="invalid-feedback" role="alert">
                             <strong>{{ $message }}</strong>
                         </span>
-                            @enderror
+                                @enderror
+                            </div>
                         </div>
-                    </div>
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-info">Upload Result</button>
-                    </div>
-                </form>
+                        <a  class="btn btn-primary" data-toggle="modal" data-target="#labResultsConfirm">
+                            Submit
+                        </a>
+                    </form>
+                @endif
             </div>
         </div>
     </div>
