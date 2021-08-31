@@ -7,7 +7,7 @@
     <!-- ======= Hero Section ======= -->
     <section id="hero" class="d-flex align-items-center">
         <div class="container">
-            <h1>#STAY HOME, STAY SAFE.</h1>
+            <h1>#STAY NYUMBANI, STAY SAFE.</h1>
             <h2>Attend an online clinic to reduce the spread of COVID-19.</h2>
             <a href="#about" class="btn-get-started scrollto">How it works</a>
         </div>
