@@ -1,14 +1,3 @@
-
-@section('image')
-
-    @if(auth()->user()->lab_technician->image_path != null)
-        <img class="img-profile rounded-circle" src="{{asset(auth()->user()->lab_technician->image_path)}}">
-    @else
-        <img class="img-profile rounded-circle" src="{{asset('img/undraw_profile.svg')}}">
-    @endif
-
-@endsection
-
 @section('name')
 
     @if(auth()->user()->lab_technician->first_name != null)

@@ -119,12 +119,12 @@
                 </a>
             </li>
 
-            <li class="nav-item">
-                <a class="nav-link " href="{{route('blank')}}" >
-                    <i class="fas fa-database"></i>
-                    <span>Records</span>
-                </a>
-            </li>
+{{--            <li class="nav-item">--}}
+{{--                <a class="nav-link " href="{{route('blank')}}" >--}}
+{{--                    <i class="fas fa-database"></i>--}}
+{{--                    <span>Records</span>--}}
+{{--                </a>--}}
+{{--            </li>--}}
 
     @elseif(auth()->user()->role->name  == 'Lab Technician')
         <!-- Nav Item - Dashboard -->

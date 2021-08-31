@@ -1,7 +1,11 @@
-@extends('layouts.auth.common')
+@extends('layouts.homepage.common')
+@section('title', "Login")
+@section('styles')
+    <link href="{{asset('css/sb-admin-2.min.css')}}" rel="stylesheet">
+@endsection
 
-@section('auth-content')
-    <div class="row">
+@section('content')
+    <div class="row col-md-8 offset-md-2" style="margin-top: 130px; margin-bottom: 80px">
         <div class="col-lg-6 d-none d-lg-block">
             <img src="{{asset('img/login.svg')}}" width="500px"  alt="" class="p-3 mt-4">
         </div>
@@ -20,9 +24,9 @@
 
                         @error('email')
                         <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
-                        @enderror
+                            <strong>{{ $message }}</strong>
+                        </span>
+                    @enderror
                     </div>
 
                     <div class="form-group">
@@ -31,8 +35,8 @@
 
                         @error('password')
                         <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                            <strong>{{ $message }}</strong>
+                        </span>
                         @enderror
 
                     </div>
@@ -56,4 +60,17 @@
             </div>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <!-- Bootstrap core JavaScript-->
+    <script src="{{asset('vendor/jquery/jquery.min.js')}}"></script>
+    <script src="{{asset('vendor/bootstrap/js/bootstrap.bundle.min.js')}}"></script>
+
+    <!-- Core plugin JavaScript-->
+    <script src="{{asset('vendor/jquery-easing/jquery.easing.min.js')}}"></script>
+
+    <!-- Custom scripts for all pages-->
+    <script src="{{asset('js/sb-admin-2.min.js')}}"></script>
+
 @endsection

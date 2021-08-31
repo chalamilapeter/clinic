@@ -28,21 +28,21 @@ class LoginController extends Controller
      */
     protected $redirectTo;
     public function redirectTo(){
-        $role = auth()->user()->role->name;
+        $role = auth()->user()->role_id;
         switch ($role){
-            case 'Admin':
-                return $this->redirectTo = route('users.index');
+            case 1:
+                return $this->redirectTo = route('admin.index');
                 break;
-            case 'Doctor':
+            case 2:
                 return $this->redirectTo = route('doctor.patients.index');
                 break;
-            case 'Patient':
+            case 3:
                 return $this->redirectTo = route('complaints.index');
                 break;
-            case 'Lab Technician':
+            case 4:
                 return $this->redirectTo = route('lab_tech.create');
                 break;
-            case 'Pharmacist':
+            case 5:
                 return $this->redirectTo = route('pharmacist.index');
                 break;
             default:
