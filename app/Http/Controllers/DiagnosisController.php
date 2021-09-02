@@ -45,22 +45,36 @@ class DiagnosisController extends Controller
     public function store(Request $request)
     {
         DB::transaction(function() use ($request) {
+
             $data = $request->validate([
-                'user_id' =>'',
                 'complaint_id' => '',
-                'patient_id' => '',
-                'medication' => 'required',
-                'tests' => 'required',
-                'critical' => 'required',
-                'message' => 'required',
-                'required_tests' => '',
+                'medication' => '',
+                'tests' => 'required_if:critical,no',
+                'critical' => '',
+                'message' => '',
+                'required_tests' => 'required_if:tests,yes',
                 'medication_description' => '',
             ]);
-            Diagnosis::create($data);
 
             $complaint = Complaint::find($data['complaint_id']);
+            $date = Complaint::where('patient_id', $complaint->patient_id)->latest()->first();
+            $months = $complaint->patient->disease->months_interval;
+
+            if($data['critical'] === 'yes'){
+                $complaint->result()->create([
+                    'critical' => $data['critical'],
+                    'next_appointment' => $date->updated_at->addMonth($months),
+                ]);
+                return back()->with('success', 'Final Results posted');
+            }
+            else{
+
+//                Diagnosis::create($data);
+
+            }
 
             $complaint->update(['status' => 'diagnosed']);
+
         });
 
         return back()->with('success', 'Complaint Diagnosed!');

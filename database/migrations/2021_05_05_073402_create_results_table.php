@@ -15,21 +15,17 @@ class CreateResultsTable extends Migration
     {
         Schema::create('results', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('complaint_id')->constrained('complaints')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('lab_id')->nullable()->constrained('labs')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users');
-            $table->foreignId('diagnosis_id')->nullable()->constrained('diagnoses');
-            $table->unsignedInteger('patient_id');
-            $table->text('tests');
-            $table->string('medication')->default('continue');
-            $table->string('critical')->default('no');
-            $table->longText('required_tests')->nullable();
-            $table->longText('medication_description')->nullable();
-            $table->longText('message');
+            $table->foreignId('complaint_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->foreignId('diagnosis_id')->nullable()->constrained();
 
-            $table->index('user_id');
+            $table->string('critical');
+            $table->string('medication')->nullable();
+            $table->longText('prescription')->nullable();
+            $table->longText('message')->nullable();
+            $table->date('next_appointment');
+
+            $table->index('diagnosis_id');
             $table->index('complaint_id');
-            $table->index('lab_id');
             $table->timestamps();
         });
     }

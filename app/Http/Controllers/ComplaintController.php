@@ -51,9 +51,13 @@ class ComplaintController extends Controller
             ]);
 
             $patient = auth()->user()->patient;
+
+            $iteration = $patient->complaints->where('created_at', today())->count();
+
             $patient->complaints()->create([
                 'doctor_id' => auth()->user()->patient->doctor_id,
                 'message' => $data['message'],
+                'iteration' => $iteration + 1,
             ]);
 
             $doctor = $patient->doctor;

@@ -55,7 +55,7 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="" id="test">
+                        <div class="d-none" id="test">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Laboratory Tests</h6>
                                 <small>If the patient requires tests or not</small>
@@ -88,7 +88,7 @@
                             <hr>
                         </div>
 
-                        <div class="meds" id="meds">
+                        <div class="meds d-none" id="meds">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Medication</h6>
                             </div>
@@ -121,7 +121,7 @@
                             </div>
                         </div>
 
-                        <div class="general" id="general">
+                        <div class="general d-none" id="general">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">General Message</h6>
                                 <small>Additional Information, Requirements, Suggestions</small>
@@ -148,41 +148,41 @@
                     <hr>
                     <h4><b>Medication</b></h4>
                     Status:
-                    @if($complaint->diagnosis->medication == 'stop' || $complaint->diagnosis->medication == 'continue')
-                        @if($complaint->diagnosis->medication == 'continue')
-                            <b class="text-success">Continue with the current Medication</b>
-                        @else
-                            <b class="text-danger">Stop the current Medication</b>
-                        @endif
-                    @else
-                        @if($complaint->diagnosis->medication == 'add')
-                            <b>Add to current Medication</b>
-                            <p class="py-2">Additions:
-                                @else
-                                    <b>Change the current Medication</b>
-                            <p class="py-2">Changes:
-                                @endif
-                                <span class="text-info font-weight-bold">{{$complaint->diagnosis->medication_description}}</span></p>
-                        @endif
-                        <hr>
-                        <h4><b>Laboratory Tests</b></h4>
-                        Tests needed:
-                        @if($complaint->diagnosis->tests == "no")
-                            <b class="text-success">No tests required</b>
-                        @else
-                            <p class="text-info font-weight-bold">{{$complaint->diagnosis->required_tests}}</p>
-                        @endif
-                        <hr>
-                        <h4><b>Hospital Attendance</b></h4>
-                        Need to come to the hospital:
-                        @if($complaint->diagnosis->critical == "yes")
-                            <b class="text-danger">Yes, at once</b>
-                        @else
-                            <b class="text-success">No</b>
-                        @endif
-                        <hr>
-                        <h4><b>Suggestions & Instructions</b></h4>
-                        <p class="text-info">{{$complaint->diagnosis->message}}</p>
+{{--                    @if($complaint->diagnosis->medication == 'stop' || $complaint->diagnosis->medication == 'continue')--}}
+{{--                        @if($complaint->diagnosis->medication == 'continue')--}}
+{{--                            <b class="text-success">Continue with the current Medication</b>--}}
+{{--                        @else--}}
+{{--                            <b class="text-danger">Stop the current Medication</b>--}}
+{{--                        @endif--}}
+{{--                    @else--}}
+{{--                        @if($complaint->diagnosis->medication == 'add')--}}
+{{--                            <b>Add to current Medication</b>--}}
+{{--                            <p class="py-2">Additions:--}}
+{{--                                @else--}}
+{{--                                    <b>Change the current Medication</b>--}}
+{{--                            <p class="py-2">Changes:--}}
+{{--                                @endif--}}
+{{--                                <span class="text-info font-weight-bold">{{$complaint->diagnosis->medication_description}}</span></p>--}}
+{{--                        @endif--}}
+{{--                        <hr>--}}
+{{--                        <h4><b>Laboratory Tests</b></h4>--}}
+{{--                        Tests needed:--}}
+{{--                        @if($complaint->diagnosis->tests == "no")--}}
+{{--                            <b class="text-success">No tests required</b>--}}
+{{--                        @else--}}
+{{--                            <p class="text-info font-weight-bold">{{$complaint->diagnosis->required_tests}}</p>--}}
+{{--                        @endif--}}
+{{--                        <hr>--}}
+{{--                        <h4><b>Hospital Attendance</b></h4>--}}
+{{--                        Need to come to the hospital:--}}
+{{--                        @if($complaint->diagnosis->critical == "yes")--}}
+{{--                            <b class="text-danger">Yes, at once</b>--}}
+{{--                        @else--}}
+{{--                            <b class="text-success">No</b>--}}
+{{--                        @endif--}}
+{{--                        <hr>--}}
+{{--                        <h4><b>Suggestions & Instructions</b></h4>--}}
+{{--                        <p class="text-info">{{$complaint->diagnosis->message}}</p>--}}
                 @endif
             </div>
         </div>
@@ -191,56 +191,35 @@
 @endsection
 @section('scripts')
     <script>
-        document.getElementById('critical').addEventListener('change', critical)
-        function critical (){
-            if(document.getElementById('critical').value === "Yes"){
-                console.log(document.getElementById('critical').value)
-                document.getElementById('test').className = "form-group d-none"
-                document.getElementById('meds').className = "form-group d-none"
-            }else{
-                document.getElementById('medication_description').className = "form-group d-none"
-                document.getElementById('medication_description').value = ""
-            }
-        }
-        document.getElementById('medication').addEventListener('change', showMedform)
-        function showMedform(){
-            if(document.getElementById('medication').value === "change" || document.getElementById('medication').value === "add"){
-                document.getElementById('medication_description').className = "form-group d-block"
-            }else{
-                document.getElementById('medication_description').className = "form-group d-none"
-                document.getElementById('medication_description').value = ""
-            }
-        }
-
-        document.getElementById('tests').addEventListener('change', showTestForm)
-        function showTestForm(){
-            if(document.getElementById('tests').value === "yes"){
-                document.getElementById('required_tests').className = "form-group d-block"
-                document.getElementById('submit').innerHTML = "Save Diagnosis & wait for tests"
-            }else{
-                document.getElementById('required_tests').className = "form-group d-none"
-                document.getElementById('required_tests').value = ""
-                document.getElementById('submit').innerHTML = "Post as final result"
-
-            }
-        }
-
-
-    </script>
-    <script>
         $(document).ready(function () {
             $('#critical').change(function () {
                 if($(this).val() === "yes"){
-                    $('#test').addClass('d-none')
-                    $('#meds').addClass('d-none')
-                    $('#general').addClass('d-none')
                     $('#submit').text('Save Final Result')
+                    $('#test').addClass('d-none')
                 }
                 else {
-                    $('#test').removeClass('d-none')
-                    $('#meds').removeClass('d-none')
-                    $('#general').removeClass('d-none')
+                    $('#submit').text('Submit')
+                    $('#test').removeClass('d-none').change(function () {
+                        if ($('#tests').val() === "yes"){
+                            $('#required_tests').removeClass('d-none')
+                            $('#submit').text('Save diagnosis & wait for tests')
+                        }
+                        else {
+                            $('#submit').text('Save Final Result')
+                            $('#required_tests').addClass('d-none')
+                            $('#meds').removeClass('d-none')
+                            $('#general').removeClass('d-none')
+                            $('#medication').change(function () {
 
+                                if ($(this).val() === 'add' || $(this).val() === 'change'){
+                                    $('#medication_description').removeClass('d-none')
+                                }
+                                else{
+                                    $('#medication_description').addClass('d-none')
+                                }
+                            })
+                        }
+                    })
                 }
             })
         });

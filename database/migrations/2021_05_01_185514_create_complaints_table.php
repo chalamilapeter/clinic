@@ -18,9 +18,11 @@ class CreateComplaintsTable extends Migration
             $table->foreignId('patient_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->integer('doctor_id')->unsigned();
             $table->longText('message');
+            $table->smallInteger('iteration');
             $table->string('status')->default('undiagnosed');
 
             $table->index('patient_id');
+            $table->index('doctor_id');
             $table->timestamps();
         });
     }

@@ -24,4 +24,9 @@ class Complaint extends Model
     {
         return $this->hasOne(Diagnosis::class);
     }
+
+    public function result()
+    {
+        return $this->hasOne(Result::class);
+    }
 }

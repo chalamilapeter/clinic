@@ -15,18 +15,13 @@ class CreateDiagnosesTable extends Migration
     {
         Schema::create('diagnoses', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('complaint_id')->constrained('complaints')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('lab_id')->nullable()->constrained('labs')->onUpdate('cascade')->onDelete('cascade');
-            $table->foreignId('user_id')->constrained('users');
-            $table->unsignedInteger('patient_id');
-            $table->text('tests');
-            $table->string('medication')->default('continue');
-            $table->string('critical')->default('no');
-            $table->longText('required_tests')->nullable();
-            $table->longText('medication_description')->nullable();
-            $table->longText('message');
+            $table->foreignId('complaint_id')->constrained()->onUpdate('cascade')->onDelete('cascade');
 
-            $table->index('user_id');
+            $table->text('tests');
+            $table->longText('required_tests')->nullable();
+            $table->foreignId('lab_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
+            $table->smallInteger('iteration');
+
             $table->index('complaint_id');
             $table->index('lab_id');
             $table->timestamps();

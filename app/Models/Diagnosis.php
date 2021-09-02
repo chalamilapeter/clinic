@@ -17,6 +17,10 @@ class Diagnosis extends Model
         return $this->belongsTo(Complaint::class);
     }
 
+    public function result()
+    {
+        return $this->hasOne(Result::class);
+    }
     public function lab()
     {
         return $this->belongsTo(Lab::class);
