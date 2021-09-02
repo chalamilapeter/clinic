@@ -20,7 +20,9 @@ class PatientController extends Controller
             return view('admin.patients.index', compact('patients'));
         }
         elseif (auth()->user()->role->name == 'Doctor'){
-            $doctor_patients = Patient::where('doctor_id', auth()->id())->get();
+
+            $doctor = auth()->user()->doctor;
+            $doctor_patients = $doctor->patients;
 
             return view('doctor.patients.index', compact('doctor_patients'));
         }

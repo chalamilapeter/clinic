@@ -15,12 +15,12 @@ class CreateComplaintsTable extends Migration
     {
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('patient_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->integer('doctor_id')->unsigned();
             $table->longText('message');
             $table->string('status')->default('undiagnosed');
 
-            $table->index('user_id');
+            $table->index('patient_id');
             $table->timestamps();
         });
     }

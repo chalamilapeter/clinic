@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin\Lab;
 use App\Models\Complaint;
 use App\Models\Diagnosis;
 use App\Models\Result;
@@ -17,7 +18,9 @@ class DiagnosisController extends Controller
         {
             if(auth()->user()->role->name == "Patient")
             {
-                $diagnosis = Diagnosis::where('patient_id',auth()->id())->get();
+                $patient = auth()->user()->patient;
+
+                $diagnosis = Diagnosis::where('patient_id', $patient->id)->get();
 
                 return view('patient.diagnosis.index', compact('diagnosis'));
             }
@@ -50,7 +53,6 @@ class DiagnosisController extends Controller
                 'tests' => 'required',
                 'critical' => 'required',
                 'message' => 'required',
-                'lab_id'=> '',
                 'required_tests' => '',
                 'medication_description' => '',
             ]);
@@ -69,9 +71,27 @@ class DiagnosisController extends Controller
     public function show($diag)
     {
         $diagnosis = Diagnosis::find($diag);
-        return view('patient.diagnosis.show', compact('diagnosis'));
+
+        $labs = Lab::all();
+
+        return view('patient.diagnosis.show', compact('diagnosis', 'labs'));
     }
 
+    public function confirm_lab(Request $request)
+    {
+        $request->validate([
+            'lab_id' => 'required',
+        ],
+        [
+            'lab_id.required' => 'Select a lab',
+        ]);
+
+        $diagnosis = Diagnosis::find($request->diagnosis_id);
+
+        $diagnosis->update(['lab_id' => $request->lab_id]);
+
+        return back()->with('success', 'Laboratory confirmed! Attend the laboratory as soon as possible to get tested');
+    }
     /**
      * Show the form for editing the specified resource.
      *

@@ -17,17 +17,25 @@
     <div class="row">
         <div class="card shadow mb-4 col-md-4 offset-md-1">
             <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Appointment Info</h6>
+                <h6 class="m-0 font-weight-bold text-primary text-center">Appointment Info</h6>
             </div>
             <div class="card-body">
-                <p>Appointment date (each month): <span class="text-info font-weight-bold">{{date('d', strtotime(auth()->user()->patient->appointment_date))}}</span></p>
-                <p>Can you make an appointment right now? <span class="text-success font-weight-bold">
-                        @if (date('d') != date('d', strtotime(auth()->user()->patient->appointment_date)))
-                            <span class="badge badge-danger">No!</span>
-                        @else
-                            <span class="badge badge-success">Yes!</span>
-                        @endif
-                    </span></p>
+                <h6 class="font-weight-bold">Previous Appointment:</h6>
+                <hr>
+                <ul>
+                    <li class="my-2">Date: <span class="text-primary">28.08.2021</span></li>
+                    <li  class="my-2">Doctor: <span class="text-primary">Dr. Peter Chalamila, MD</span></li>
+                    <li  class="my-2">Overall condition: <span class="text-success">Great</span></li>
+                    <li  class="my-2">Detailed results: <a href="#" >View</a></li>
+                </ul>
+                <hr>
+                <h6 class="font-weight-bold">Next Appointment:</h6>
+                <hr>
+                <ul>
+                    <li class="my-2">Scheduled Date: <span class="text-primary">28.08.2021</span></li>
+                    <li  class="my-2">Doctor: <span class="text-primary">Dr. Peter Chalamila, MD</span></li>
+                </ul>
+                <hr>
             </div>
         </div>
 
@@ -36,9 +44,22 @@
                 <h6 class="m-0 font-weight-bold text-primary">Complaints Log</h6>
             </div>
             <div class="card-body">
-                @if (date('d') != date('d', strtotime(auth()->user()->patient->appointment_date)))
-                    Sorry, your appointment date is due. You cannot submit your complaint log today.
+                @if (date('d') == date('d', strtotime(auth()->user()->patient->appointment_date)))
+                   <div class="text-center text-info">
+                       <i class="far fa-sad-tear fa-9x"></i>
+                   </div>
+                    <h4 class="text-center mt-3">Sorry, your appointment date is not due. You cannot submit your complaint log today.</h4>
+                    <hr>
+                    <div class="counter text-center">
+                        <h5 class="font-weight-bold">Time till next appointment:</h5>
+                        <p id="demo" class="btn btn-success"></p>
+                    </div>
+                    <hr>
+                    <p>For any problem, click to call: <a href="tel:+255786065529" class="font-weight-bold text-primary">07860 65529</a></p>
                 @else
+                    <div class="bg-success mb-3 p-3 text-white rounded">
+                        <small>Hi, Today is your appointment day. You can submit your complaint log for diagnosis. This appointment will end in: <b id="demo"></b> and you won't be able to submit your complaints.</small>
+                    </div>
                     <form action="{{route('complaints.store')}}" method="post">
                         @csrf
                         <div class="form-group">
@@ -65,7 +86,7 @@
 
 @endsection
 
-@section('js')
+@section('scripts')
     <script>
         ClassicEditor
             .create( document.querySelector( '#message' ) )
@@ -75,5 +96,35 @@
             .catch( error => {
                 console.error( error );
             } );
+    </script>
+    <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date("Oct 5, 2021 15:37:25").getTime();
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+            // Get today's date and time
+            var now = new Date().getTime();
+
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
+
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Display the result in the element with id="demo"
+            document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            // If the count down is finished, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }, 1000);
     </script>
 @endsection

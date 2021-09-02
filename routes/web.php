@@ -54,6 +54,7 @@ Route::group(['middleware' => 'auth'], function(){
     //Patient Routes
     Route::group(['prefix' => 'patient', 'middleware'=>'role:Patient'], function(){
         Route::view('dashboard', 'patient.index')->name('patient.index');
+        Route::post('confirm_lab', [\App\Http\Controllers\DiagnosisController::class, 'confirm_lab'])->name('confirm_lab');
     });
 
     //Lab Technician Routes

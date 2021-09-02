@@ -15,10 +15,10 @@
             </div>
             <div class="card-body">
                 <ul style="line-height: 40px">
-                    <li>Patient Name: <span><b>{{$complaint->user->patient->first_name . " " . $complaint->user->patient->last_name}}</b></span></li>
-                    <li>Appointment Date: <b>{{date('d M', strtotime($complaint->user->patient->appointment_date))}}</b></li>
-                    <li>Age: <b>{{date('Y') - date('Y', strtotime($complaint->user->patient->birth_date))}} years</b></li>
-                    <li>Complaint: <br> <b class="text-info">{{$complaint->message}}</b></li>
+                    <li>Patient Name: <span><b>{{$complaint->patient->first_name . " " . $complaint->patient->last_name}}</b></span></li>
+                    <li>Appointment Date: <b>{{date('d M', strtotime($complaint->created_at))}}</b></li>
+                    <li>Age: <b>{{date('Y') - date('Y', strtotime($complaint->patient->birth_date))}} years</b></li>
+                    <li>Complaint: <br> <p class="text-white mt-2 bg-secondary p-3 rounded ">{{$complaint->message}}</p></li>
                 </ul>
             </div>
         </div>
@@ -33,7 +33,7 @@
                         @csrf
                         <input type="hidden" name="complaint_id" value="{{$complaint->id}}">
                         <input type="hidden" name="user_id" value="{{auth()->id()}}">
-                        <input type="hidden" name="patient_id" value="{{$complaint->user_id}}">
+                        <input type="hidden" name="patient_id" value="{{$complaint->patient_id}}">
 
                         <div class="hosp">
                             <div class="card-header py-3">
@@ -75,23 +75,6 @@
                             </div>
 
                             <div class="form-group d-none" id="required_tests">
-                                <div class="my-2">
-                                    <label for="">Recommend a lab</label>
-                                    <select name="lab_id" id="lab_id" class="form-control @error('lab_id') is-invalid @enderror">
-                                        <option disabled selected>Select</option>
-                                        @if($labs->count()>0)
-                                            @foreach($labs as $lab)
-                                                <option value="{{$lab->id}}">{{$lab->name}}</option>
-                                            @endforeach
-                                        @else
-                                        @endif
-                                    </select>
-                                    @error('lab_id')
-                                    <span class="invalid-feedback" role="alert">
-                                       <strong>{{ $message }}</strong>
-                                   </span>
-                                    @enderror
-                                </div>
                                 <label for="">Describe The Required tests</label>
                                 <textarea name="required_tests" id="required_tests" cols="30" rows="5" class="form-control  @error('required_tests') is-invalid @enderror ">
                                 </textarea>
@@ -187,11 +170,6 @@
                         @if($complaint->diagnosis->tests == "no")
                             <b class="text-success">No tests required</b>
                         @else
-                            <b class="text-warning">Tests required</b>
-                            <p class="pt-2">Recommended Laboratory:
-                                <a href="#" class="text-info font-weight-bold">{{$complaint->diagnosis->lab->name ." - " . $complaint->diagnosis->lab->location}}</a>
-                            </p>
-                            <p>Tests needed:</p>
                             <p class="text-info font-weight-bold">{{$complaint->diagnosis->required_tests}}</p>
                         @endif
                         <hr>

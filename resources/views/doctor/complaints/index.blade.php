@@ -31,9 +31,9 @@
                         @foreach($complaints as $complaint)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$complaint->user->patient->first_name.' '.$complaint->user->patient->last_name}}</td>
-                                <td>{{$complaint->user->patient->disease->common_name}}</td>
-                                <td>{{date('Y') - date('Y', strtotime($complaint->user->patient->birth_date))}}</td>
+                                <td>{{$complaint->patient->first_name.' '.$complaint->patient->last_name}}</td>
+                                <td>{{$complaint->patient->disease->common_name}}</td>
+                                <td>{{date('Y') - date('Y', strtotime($complaint->patient->birth_date))}}</td>
                                 <td>{{date('d M Y', strtotime($complaint->created_at))}}</td>
                                 <td>
                                     @if($complaint->status == 'diagnosed')
@@ -51,7 +51,7 @@
                         @endforeach
                     @else
                         <tr class="text-center">
-                            <td colspan="6">No Complaints yet!</td>
+                            <td colspan="7">No Complaints yet!</td>
                         </tr>
                     @endif
                     </tbody>

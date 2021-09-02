@@ -78,7 +78,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{route('complaints.index')}}">
                 <i class="fas fa-syringe"></i>
-                <span>Diagnoses</span>
+                <span>Complaints</span>
             </a>
         </li>
 
