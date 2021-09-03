@@ -23,6 +23,7 @@ class CreateResultsTable extends Migration
             $table->longText('prescription')->nullable();
             $table->longText('message')->nullable();
             $table->date('next_appointment');
+            $table->string('condition');
 
             $table->index('diagnosis_id');
             $table->index('complaint_id');

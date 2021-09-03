@@ -2,20 +2,27 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Complaint;
 use App\Models\Diagnosis;
 use App\Models\Result;
 use Illuminate\Http\Request;
 
 class ResultControler extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function index()
     {
-        //
+        if (auth()->user()->role_id === 3){
+            $patient = auth()->user()->patient;
+            $complaints = Complaint::where('patient_id', $patient->id)->pluck('id')->toArray();
+            $diagnoses = Diagnosis::whereIn('complaint_id', $complaints)->pluck('id')->toArray();
+            $results = Result::whereIn('complaint_id', $complaints)
+                ->orWhereIn('diagnosis_id', $diagnoses)
+                ->latest()
+                ->paginate(5);
+            $doctor = $patient->doctor->last_name . ", " . $patient->doctor->first_name;
+            return view('patient.results.index', compact('results', 'doctor'));
+        }
     }
 
     /**
@@ -40,11 +47,15 @@ class ResultControler extends Controller
     }
 
 
-    public function show($result)
+    public function show(Result  $result)
     {
-        $diagnosis = Diagnosis::find($result);
+        if (auth()->user()->role_id === 3){
 
-        return view('doctor.results.show', compact('diagnosis'));
+            return view('patient.results.show', compact('result'));
+        }
+//        $diagnosis = Diagnosis::find($result);
+//
+//        return view('doctor.results.show', compact('diagnosis'));
     }
 
     /**

@@ -9,7 +9,7 @@ class Result extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['critical', 'next_appointment'];
+    protected $fillable = ['critical', 'next_appointment', 'medication', 'prescription', 'message', 'condition'];
 
     public function complaint()
     {

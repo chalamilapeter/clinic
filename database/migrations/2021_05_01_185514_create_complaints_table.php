@@ -16,9 +16,8 @@ class CreateComplaintsTable extends Migration
         Schema::create('complaints', function (Blueprint $table) {
             $table->id();
             $table->foreignId('patient_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
-            $table->integer('doctor_id')->unsigned();
+            $table->foreignId('doctor_id')->constrained();
             $table->longText('message');
-            $table->smallInteger('iteration');
             $table->string('status')->default('undiagnosed');
 
             $table->index('patient_id');

@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use App\Classes\SMS;
 use App\Models\Admin\Lab;
 use App\Models\Complaint;
+use App\Models\Diagnosis;
 use App\Models\Doctor;
+use App\Models\Result;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class ComplaintController extends Controller
@@ -15,7 +18,17 @@ class ComplaintController extends Controller
     {
         if(auth()->user()->role->name == 'Patient' || auth()->user()->role->name == 'Doctor'){
             if(auth()->user()->role->name == 'Patient'){
-                return view('patient.complaints.index');
+                $patient = auth()->user()->patient;
+                $complaints = Complaint::where('patient_id', $patient->id)->pluck('id')->toArray();
+                $diagnoses = Diagnosis::whereIn('complaint_id', $complaints)->pluck('id')->toArray();
+                $results = Result::whereIn('complaint_id', $complaints)
+                            ->orWhereIn('diagnosis_id', $diagnoses)
+                            ->latest()
+                            ->get();
+                $previous_date = $results->first()->created_at ?? now();
+                $next_date = Carbon::make($results->first()->next_appointment ?? now());
+                $doctor = $patient->doctor->last_name . ", " . $patient->doctor->first_name;
+                return view('patient.complaints.index', compact('previous_date', 'next_date', 'doctor'));
             }
             else {
                 $doctor = auth()->user()->doctor;
@@ -29,17 +42,6 @@ class ComplaintController extends Controller
         }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-
     public function store(Request $request)
     {
         if(auth()->user()->role->name != "Patient"){
@@ -52,12 +54,10 @@ class ComplaintController extends Controller
 
             $patient = auth()->user()->patient;
 
-            $iteration = $patient->complaints->where('created_at', today())->count();
 
             $patient->complaints()->create([
                 'doctor_id' => auth()->user()->patient->doctor_id,
                 'message' => $data['message'],
-                'iteration' => $iteration + 1,
             ]);
 
             $doctor = $patient->doctor;
@@ -72,8 +72,8 @@ class ComplaintController extends Controller
 
     public function show(Complaint $complaint)
     {
-        $labs = Lab::all();
-        return view('doctor.complaints.show', compact('complaint', 'labs'));
+        $date = date('Y-m-d', strtotime($complaint->created_at->addMonths($complaint->patient->disease->months_interval)));
+        return view('doctor.complaints.show', compact('complaint', 'date'));
     }
 
     /**

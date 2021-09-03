@@ -19,10 +19,11 @@ class DiagnosisController extends Controller
             if(auth()->user()->role->name == "Patient")
             {
                 $patient = auth()->user()->patient;
+                $complaints = $patient->complaints->pluck('id')->toArray();
 
-                $diagnosis = Diagnosis::where('patient_id', $patient->id)->get();
+                $diagnoses = Diagnosis::whereIn('complaint_id', $complaints)->latest()->paginate(5);
 
-                return view('patient.diagnosis.index', compact('diagnosis'));
+                return view('patient.diagnosis.index', compact('diagnoses'));
             }
             elseif(auth()->user()->role->name == "Admin")
             {
@@ -46,38 +47,57 @@ class DiagnosisController extends Controller
     {
         DB::transaction(function() use ($request) {
 
-            $data = $request->validate([
-                'complaint_id' => '',
-                'medication' => '',
-                'tests' => 'required_if:critical,no',
-                'critical' => '',
-                'message' => '',
-                'required_tests' => 'required_if:tests,yes',
-                'medication_description' => '',
+            $request->validate([
+                'critical' => 'required',
             ]);
 
-            $complaint = Complaint::find($data['complaint_id']);
-            $date = Complaint::where('patient_id', $complaint->patient_id)->latest()->first();
-            $months = $complaint->patient->disease->months_interval;
+            $complaint = Complaint::find($request->complaint_id);
 
-            if($data['critical'] === 'yes'){
+            $date = Complaint::where('patient_id', $complaint->patient_id)->latest()->first();
+
+            if($request->critical === 'yes'){
                 $complaint->result()->create([
-                    'critical' => $data['critical'],
-                    'next_appointment' => $date->updated_at->addMonth($months),
+                    'critical' => $request->critical,
+                    'condition' => 'Critical',
+                    'next_appointment' => $date->updated_at->addMonth($complaint->patient->disease->months_interval),
                 ]);
-                return back()->with('success', 'Final Results posted');
             }
             else{
 
-//                Diagnosis::create($data);
+                 $data = $request->validate([
+                    'complaint_id' => '',
+                    'medication' => 'required_if:tests,no',
+                    'tests' => 'required_if:critical,no',
+                    'message' => 'required_if:tests,no',
+                    'condition' => 'required_if:tests,no',
+                    'next_appointment' => 'required_if:tests,no',
+                    'required_tests' => 'required_if:tests,yes',
+                    'prescription' => 'required_if:medication,add,change',
+                ]);
 
+                 if ($data['tests'] === 'yes'){
+                    $complaint->diagnosis()->create([
+                        'tests' => 'yes',
+                        'required_tests' => $data['required_tests'],
+                    ]);
+                 }
+                 else{
+                     $complaint->result()->create([
+                         'critical' => 'no',
+                         'medication' => $data['medication'],
+                         'prescription' => $data['prescription'],
+                         'message' => $data['message'],
+                         'next_appointment' => $data['next_appointment'],
+                         'condition' => $data['condition'],
+                     ]);
+
+                 }
             }
 
             $complaint->update(['status' => 'diagnosed']);
-
         });
 
-        return back()->with('success', 'Complaint Diagnosed!');
+        return back()->with('success', 'Complaint diagnosed.');
 
     }
 

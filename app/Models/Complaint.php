@@ -11,9 +11,9 @@ class Complaint extends Model
 
     protected $guarded =[];
 
-    public function user()
+    public function doctor()
     {
-     return $this->belongsTo(User::class);
+     return $this->belongsTo(Doctor::class, 'doctor_id');
     }
 
     public function patient()

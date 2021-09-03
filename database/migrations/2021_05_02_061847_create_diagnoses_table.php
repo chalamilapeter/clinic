@@ -20,7 +20,6 @@ class CreateDiagnosesTable extends Migration
             $table->text('tests');
             $table->longText('required_tests')->nullable();
             $table->foreignId('lab_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
-            $table->smallInteger('iteration');
 
             $table->index('complaint_id');
             $table->index('lab_id');

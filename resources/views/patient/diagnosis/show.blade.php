@@ -25,7 +25,7 @@
                     <li>Complaint: <br> <b class="text-info">{{$diagnosis->complaint->message}}</b></li>
                 </ul>
                 <hr>
-                Diagnosed by: <b>Dr. {{$diagnosis->user->doctor->first_name . " " . $diagnosis->user->doctor->last_name}}</b>
+                Diagnosed by: <b>Dr. {{$diagnosis->complaint->patient->doctor->first_name . " " . $diagnosis->complaint->patient->doctor->last_name}}</b>
             </div>
         </div>
 
@@ -34,26 +34,30 @@
                 <h6 class="m-0 font-weight-bold text-primary">Diagnosis Results</h6>
             </div>
             <div class="card-body">
-                <h4><b>Hospital Attendance</b></h4>
-                Do you need to come to the hospital:
-                @if($diagnosis->critical == "yes")
-                    <b class="text-danger">Yes, at once</b>
-                @else
-                    <b class="text-success">No</b>
-                @endif
+                <h6><b>Hospital presence</b></h6>
+                <p class="text-white bg-success rounded p-3">You <b>don't</b> have to come to the hospital.</p>
                 <hr>
-                <h4><b>Laboratory Tests</b></h4>
-                @if($diagnosis->tests == "no")
-                    <b class="text-success">No tests required</b>
-                @else
+                <h6><b>Laboratory tests</b></h6>
+                @if($diagnosis->tests === 'yes')
+                    <p class="text-white bg-info rounded p-3">Laboratory tests are required for further diagnosis.</p>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <b> Tests:</b>
+                            <p class="text-white bg-secondary rounded p-3">{{$diagnosis->required_tests}}</p>
+                        </div>
+                        <div class="col-md-6">
+                            <b>Lab:</b>
+                            <p class="text-white bg-secondary rounded p-3">{{$diagnosis->lab->name ." - " . $diagnosis->lab->location ?? "Unconfirmed"}}</p>
+                        </div>
+                    </div>
                     @if($diagnosis->lab_id === null)
                         <p class="bg-info p-2 rounded">
-                            <small class="text-white ">You need to perform tests for further diagnosis. You are required to confirm the lab among the following approved labs to conduct your tests.</small>
+                            <small class="text-white font-weight-bold">You are required to confirm the lab among the following approved labs to conduct your tests.</small>
                         </p>
                         <form action="{{route('confirm_lab')}}" method = "POST">
-                            <div class="row my-4 d-flex ">
-                                @csrf
-                                <input type="hidden" name="diagnosis_id" value="{{$diagnosis->id}}">
+                            @csrf
+                            <input type="hidden" name="diagnosis_id" value="{{$diagnosis->id}}">
+                            <div class="row ">
                                 <div class="col-md-8">
                                     <label for="">Choose a lab</label>
                                     <select name="lab_id" id="lab_id" class="form-control @error('lab_id') is-invalid @enderror">
@@ -73,41 +77,15 @@
                                 </div>
                                 <div class="col-md-4">
                                     <label for="" class="d-block">Confirm</label>
-                                    <button class="btn btn-success">Confirm</button>
+                                    <button class="btn btn-success w-100">Confirm</button>
                                 </div>
                             </div>
                         </form>
-
-                    @else
-                        <p class="bg-success p-2 rounded">
-                            <small class="text-white ">You need to perform tests. Confirmed lab: <b>{{$diagnosis->lab->name ." - " . $diagnosis->lab->location}}</b></small>
-                        </p>
-                    @endif
-                    <p>Tests needed:</p>
-                    <p class="text-white font-weight-bold ml-3 bg-secondary p-2 pl-4 rounded">{{$diagnosis->required_tests}}</p>
-                @endif
-                <hr>
-                <h4><b>Medication</b></h4>
-                    Status:
-                @if($diagnosis->medication == 'stop' || $diagnosis->medication == 'continue')
-                    @if($diagnosis->medication == 'continue')
-                        <b class="text-success">Continue with the current Medication</b>
-                    @else
-                        <b class="text-danger">Stop with the current Medication</b>
                     @endif
                 @else
-                    @if($diagnosis->medication == 'add')
-                        <b>Add to your current Medication</b>
-                        <p class="py-2">Additions:
-                    @else
-                        <b>Change your current Medication</b>
-                        <p class="py-2">Changes:
-                    @endif
-                    <span class="text-info font-weight-bold">{{$diagnosis->medication_description}}</span></p>
+                    <p class="text-white bg-success rounded p-3">Laboratory tests are <b>not</b> required.</p>
                 @endif
                 <hr>
-                <h4><b>Suggestions & Instructions</b></h4>
-                <p class="text-white bg-secondary p-2 rounded ml-2 ">{{$diagnosis->message}}</p>
             </div>
         </div>
     </div>

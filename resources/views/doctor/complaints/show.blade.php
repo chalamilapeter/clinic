@@ -44,8 +44,8 @@
                                 <label for="">Come to Hospital?</label>
                                 <select name="critical" id="critical" class="form-control @error('critical') is-invalid @enderror">
                                     <option disabled selected>Select</option>
-                                    <option value="yes">Yes</option>
-                                    <option value="no">No</option>
+                                    <option value="yes" {{old('critical') === 'yes' ? 'selected' : ''}}>Yes</option>
+                                    <option value="no" {{old('critical') === 'no' ? 'selected' : ''}}>No</option>
                                 </select>
                                 @error('critical')
                                 <span class="invalid-feedback" role="alert">
@@ -64,8 +64,8 @@
                                 <label for="">Tests required?</label>
                                 <select name="tests" id="tests" class="form-control @error('tests') is-invalid @enderror">
                                     <option disabled selected>Select</option>
-                                    <option value="yes">Yes</option>
-                                    <option value="no">No</option>
+                                    <option value="yes" {{old('tests') === 'yes' ? 'selected' : ''}}>Yes</option>
+                                    <option value="no" {{old('tests') === 'no' ? 'selected' : ''}}>No</option>
                                 </select>
                                 @error('tests')
                                 <span class="invalid-feedback" role="alert">
@@ -77,6 +77,7 @@
                             <div class="form-group d-none" id="required_tests">
                                 <label for="">Describe The Required tests</label>
                                 <textarea name="required_tests" id="required_tests" cols="30" rows="5" class="form-control  @error('required_tests') is-invalid @enderror ">
+                                    {{old('required_tests')}}
                                 </textarea>
 
                                 @error('required_tests')
@@ -96,27 +97,28 @@
                             <div class="form-group">
                                 <select name="medication" id="medication" class="form-control @error('medication') is-invalid @enderror">
                                     <option disabled selected>Select</option>
-                                    <option value="continue">Continue with current</option>
-                                    <option value="stop">Stop the current medication</option>
-                                    <option value="add">Add your medication with</option>
-                                    <option value="change">Change medication</option>
+                                    <option value="continue" {{old('medication') === 'continue' ? 'selected' : ''}}>Continue with current</option>
+                                    <option value="stop" {{old('medication') === 'stop' ? 'selected' : ''}}>Stop the current medication</option>
+                                    <option value="add" {{old('medication') === 'add' ? 'selected' : ''}}>Add your medication with</option>
+                                    <option value="change" {{old('medication') === 'change' ? 'selected' : ''}}>Change medication</option>
                                 </select>
                                 @error('medication')
                                 <span class="invalid-feedback" role="alert">
-                            <strong>{{ $message }}</strong>
-                        </span>
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
 
                             <div class="form-group d-none" id="medication_description">
                                 <label for="">Describe medication instructions</label>
-                                <textarea name="medication_description" id="" cols="30" rows="5" class="form-control  @error('medication_description') is-invalid @enderror ">
-                            </textarea>
+                                <textarea name="prescription" id="" cols="30" rows="5" class="form-control  @error('medication_description') is-invalid @enderror ">
+                                     {{old('prescription')}}
+                                </textarea>
 
                                 @error('medication_description')
                                 <span class="invalid-feedback" role="alert">
-                                <strong>{{ $message }}</strong>
-                            </span>
+                                    <strong>{{ $message }}</strong>
+                                </span>
                                 @enderror
                             </div>
                         </div>
@@ -128,61 +130,124 @@
                             </div>
                             <div class="form-group mt-2">
                                 <label for="">Message</label>
-                                <textarea name="message" id="" cols="30" rows="5" class="form-control @error('message') is-invalid @enderror" ></textarea>
+                                <textarea name="message" id="" cols="30" rows="5" class="form-control @error('message') is-invalid @enderror" >{{old('message')}}</textarea>
+
                                 @error('message')
                                 <span class="invalid-feedback" role="alert">
-                           <strong>{{ $message }}</strong>
-                       </span>
+                                   <strong>{{ $message }}</strong>
+                               </span>
                                 @enderror
                             </div>
                             <hr>
                         </div>
 
-                        <a  class="btn btn-primary" data-toggle="modal" data-target="#diagnosisconfirm" id="submit">
+                        <div class="next_appointment d-none" id="general">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Next appointment</h6>
+                                <small>This date is automatically filled by the system based on the disease of the patient. If you wish to change it, select another date.</small>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="">Next appointment</label>
+                                <input type="date" name="next_appointment" class="form-control @error('next_appointment') is-invalid @enderror" value="{{ $date}}" />
+
+                                @error('next_appointment')
+                                <span class="invalid-feedback" role="alert">
+                                   <strong>{{ $message }}</strong>
+                               </span>
+                                @enderror
+                            </div>
+                            <hr>
+                        </div>
+
+                        <div class="condition d-none" id="general">
+                            <div class="card-header py-3">
+                                <h6 class="m-0 font-weight-bold text-primary">Overall Condition</h6>
+                                <small>What would you say is the overall condition for this patient based on this clinic?</small>
+                            </div>
+                            <div class="form-group mt-2">
+                                <label for="">Overall condition</label>
+                                <select name="condition" class="form-control @error('condition') is-invalid @enderror" >
+                                    <option selected disabled>...</option>
+                                    <option value="Critical" {{old('condition') === 'Critical' ? 'selected' : ''}}>Critical</option>
+                                    <option value="Bad" {{old('condition') === 'Bad' ? 'selected' : ''}}>Bad</option>
+                                    <option value="Normal" {{old('condition') === 'Normal' ? 'selected' : ''}}>Normal</option>
+                                    <option value="Good" {{old('condition') === 'Good' ? 'selected' : ''}}>Good</option>
+                                    <option value="Excellent" {{old('condition') === 'Excellent' ? 'selected' : ''}}>Excellent</option>
+                                </select>
+                                @error('condition')
+                                <span class="invalid-feedback" role="alert">
+                                   <strong>{{ $message }}</strong>
+                               </span>
+                                @enderror
+                            </div>
+                            <hr>
+                        </div>
+
+                        <a  class="btn btn-primary button d-none" data-toggle="modal" data-target="#diagnosisconfirm" id="submit">
                             Submit
                         </a>
                     </form>
 
                 @else
-                    <h3><b>You diagnosed this complaint as follows:</b></h3>
+                    <h5><b>You diagnosed this complaint as follows:</b></h5>
                     <hr>
-                    <h4><b>Medication</b></h4>
-                    Status:
-{{--                    @if($complaint->diagnosis->medication == 'stop' || $complaint->diagnosis->medication == 'continue')--}}
-{{--                        @if($complaint->diagnosis->medication == 'continue')--}}
-{{--                            <b class="text-success">Continue with the current Medication</b>--}}
-{{--                        @else--}}
-{{--                            <b class="text-danger">Stop the current Medication</b>--}}
-{{--                        @endif--}}
-{{--                    @else--}}
-{{--                        @if($complaint->diagnosis->medication == 'add')--}}
-{{--                            <b>Add to current Medication</b>--}}
-{{--                            <p class="py-2">Additions:--}}
-{{--                                @else--}}
-{{--                                    <b>Change the current Medication</b>--}}
-{{--                            <p class="py-2">Changes:--}}
-{{--                                @endif--}}
-{{--                                <span class="text-info font-weight-bold">{{$complaint->diagnosis->medication_description}}</span></p>--}}
-{{--                        @endif--}}
-{{--                        <hr>--}}
-{{--                        <h4><b>Laboratory Tests</b></h4>--}}
-{{--                        Tests needed:--}}
-{{--                        @if($complaint->diagnosis->tests == "no")--}}
-{{--                            <b class="text-success">No tests required</b>--}}
-{{--                        @else--}}
-{{--                            <p class="text-info font-weight-bold">{{$complaint->diagnosis->required_tests}}</p>--}}
-{{--                        @endif--}}
-{{--                        <hr>--}}
-{{--                        <h4><b>Hospital Attendance</b></h4>--}}
-{{--                        Need to come to the hospital:--}}
-{{--                        @if($complaint->diagnosis->critical == "yes")--}}
-{{--                            <b class="text-danger">Yes, at once</b>--}}
-{{--                        @else--}}
-{{--                            <b class="text-success">No</b>--}}
-{{--                        @endif--}}
-{{--                        <hr>--}}
-{{--                        <h4><b>Suggestions & Instructions</b></h4>--}}
-{{--                        <p class="text-info">{{$complaint->diagnosis->message}}</p>--}}
+                    @if($complaint->result)
+                     <h6><b>Hospital presence:</b></h6>
+                        @if($complaint->result->critical === 'yes')
+                            <p class="text-white bg-danger rounded p-3 mt-5">The patient <b>has</b> to come to the hospital.</p>
+                        @else
+                            <p class="text-white bg-success rounded p-3">The patient <b>doesn't</b> have to come to the hospital.</p>
+                            <hr>
+                            <h6><b>Laboratory tests</b></h6>
+                            <p class="text-white bg-success rounded p-3">Laboratory tests are <b>not</b> required.</p>
+                            <hr>
+                            <h6><b>Medication:</b></h6>
+                            @if($complaint->result->medication === 'continue')
+                                <p class="text-white bg-success rounded p-3"><b>Proceed</b> with the current medication.</p>
+                            @elseif($complaint->result->medication === 'stop')
+                                <p class="text-white bg-danger rounded p-3"><b>Stop</b> the current medication.</p>
+                            @elseif($complaint->result->medication === 'change')
+                                <p class="text-white bg-info rounded p-3"><b>Change</b> the current medication.</p>
+                                Changes: <p class="text-white bg-info rounded p-3">{{$complaint->result2->prescription}}</p>
+                            @elseif($complaint->result->medication === 'add')
+                                <p class="text-white bg-danger rounded p-3"><b>Add</b> to the current medication.</p>
+                                Additions: <p class="text-white bg-info rounded p-3">{{$complaint->result->prescription}}</p>
+                            @endif
+                            <hr>
+                            <h6><b>General Message:</b></h6>
+                            <p class="bg-secondary rounded p-3 text-white">{{$complaint->result->message}}</p>
+                            <hr>
+                            <h6><b>Overall condition</b></h6>
+                            <p class="bg-secondary rounded p-3 text-white">
+                                {{$complaint->result->condition}}
+                            </p>
+                            <hr>
+                            <h6><b>Next appointment:</b></h6>
+                            <p class="bg-secondary rounded p-3 text-white">{{date('d F Y', strtotime($complaint->result->next_appointment))}}</p>
+                        @endif
+                    @elseif($complaint->diagnosis)
+                        <h6><b>Hospital presence</b></h6>
+                        <p class="text-white bg-success rounded p-3">The patient <b>doesn't</b> have to come to the hospital.</p>
+                        <hr>
+                        <h6><b>Laboratory tests</b></h6>
+                        @if($complaint->diagnosis->tests === 'yes')
+                            <p class="text-white bg-info rounded p-3">Laboratory tests are required for further diagnosis.</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                   <b> Tests:</b>
+                                    <p class="text-white bg-secondary rounded p-3">{{$complaint->diagnosis->required_tests}}</p>
+                                </div>
+                                <div class="col-md-6">
+                                    <b>Lab:</b>
+                                    <p class="text-white bg-secondary rounded p-3">{{$complaint->diagnosis->lab->name ?? "Unconfirmed"}}</p>
+                                </div>
+                            </div>
+                        @else
+                            <p class="text-white bg-success rounded p-3">Laboratory tests are <b>not</b> required.</p>
+
+                            <br>
+                        @endif
+                    @endif
                 @endif
             </div>
         </div>
@@ -195,20 +260,31 @@
             $('#critical').change(function () {
                 if($(this).val() === "yes"){
                     $('#submit').text('Save Final Result')
+                    $('.button').removeClass('d-none')
                     $('#test').addClass('d-none')
                 }
                 else {
+                    $('.button').addClass('d-none')
                     $('#submit').text('Submit')
                     $('#test').removeClass('d-none').change(function () {
+                        $('.button').removeClass('d-none')
+
                         if ($('#tests').val() === "yes"){
                             $('#required_tests').removeClass('d-none')
                             $('#submit').text('Save diagnosis & wait for tests')
+                            $('#meds').addClass('d-none')
+                            $('#general').addClass('d-none')
+                            $('.condition').addClass('d-none')
+                            $('.next_appointment').addClass('d-none')
+
                         }
                         else {
                             $('#submit').text('Save Final Result')
                             $('#required_tests').addClass('d-none')
                             $('#meds').removeClass('d-none')
                             $('#general').removeClass('d-none')
+                            $('.next_appointment').removeClass('d-none')
+                            $('.condition').removeClass('d-none')
                             $('#medication').change(function () {
 
                                 if ($(this).val() === 'add' || $(this).val() === 'change'){

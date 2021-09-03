@@ -113,7 +113,7 @@
             </li>
 
             <li class="nav-item">
-                <a class="nav-link " href="{{route('blank')}}" >
+                <a class="nav-link " href="{{route('results.index')}}" >
                     <i class="fas fa-poll-h"></i>
                     <span>Results</span>
                 </a>
