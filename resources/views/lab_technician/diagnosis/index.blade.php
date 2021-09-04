@@ -24,23 +24,23 @@
                 </thead>
 
                 <tbody>
-                @if ($diagnosis->count()>0)
-                    @foreach($diagnosis as $diag)
+                @if ($diagnoses->count()>0)
+                    @foreach($diagnoses as $diagnosis)
                         <tr>
-                            <td>{{$diag->id}}</td>
+                            <td>{{$loop->iteration}}</td>
                             <td>KCMC</td>
-                            <td>{{$diag->complaint->user->patient->first_name." ".$diag->complaint->user->patient->last_name}}</td>
-                            <td>Dr. {{$diag->user->doctor->first_name." ".$diag->user->doctor->last_name}}</td>
-                            <td>{{date('d M Y' , strtotime($diag->created_at))}}</td>
+                            <td>{{$diagnosis->complaint->patient->first_name." ".$diagnosis->complaint->patient->last_name}}</td>
+                            <td>Dr. {{$diagnosis->complaint->patient->doctor->first_name." ".$diagnosis->complaint->patient->doctor->last_name}}</td>
+                            <td>{{date('d M Y' , strtotime($diagnosis->created_at))}}</td>
                             <td>
-                                @if($diag->lab_result)
+                                @if($diagnosis->lab_result)
                                     <div class="badge badge-success">Tested</div>
                                 @else
                                     <div class="badge badge-danger">untested</div>
                                 @endif
                             </td>
                             <td>
-                                <a href="{{route('lab_tech.show', $diag)}}" class="badge badge-info badge-sm">
+                                <a href="{{route('lab_tech.show', $diagnosis)}}" class="badge badge-info badge-sm">
                                     <small> <i class="fas fa-eye"></i></small>
                                 </a>
                             </td>
@@ -48,11 +48,14 @@
                     @endforeach
                 @else
                     <tr class="text-center">
-                        <td colspan="6">No Diagnosis yet!</td>
+                        <td colspan="7">No Diagnoses yet!</td>
                     </tr>
                 @endif
                 </tbody>
             </table>
+            <div class="d-flex justify-content-center mt-2">
+                {{$diagnoses->links()}}
+            </div>
         </div>
     </div>
 

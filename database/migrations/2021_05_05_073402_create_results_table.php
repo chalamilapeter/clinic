@@ -18,9 +18,11 @@ class CreateResultsTable extends Migration
             $table->foreignId('complaint_id')->nullable()->constrained()->onUpdate('cascade')->onDelete('cascade');
             $table->foreignId('diagnosis_id')->nullable()->constrained();
 
+
             $table->string('critical');
             $table->string('medication')->nullable();
             $table->longText('prescription')->nullable();
+            $table->foreignId('pharmacy_id')->nullable()->constrained();
             $table->longText('message')->nullable();
             $table->date('next_appointment');
             $table->string('condition');

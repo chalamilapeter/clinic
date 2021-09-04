@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin\Lab;
 use App\Models\Complaint;
 use App\Models\Diagnosis;
+use App\Models\LabResult;
 use App\Models\Result;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -33,7 +34,8 @@ class DiagnosisController extends Controller
             }
             else
             {
-                $diagnoses = Diagnosis::where('user_id', auth()->id())->latest()->paginate(5);
+                $complaints = Complaint::where('doctor_id', auth()->user()->doctor->id)->pluck('id')->toArray();
+                $diagnoses = Diagnosis::whereIn('complaint_id', $complaints)->latest()->paginate(5);
 
                 return view('doctor.diagnosis.index', compact('diagnoses'));
             }
@@ -102,13 +104,18 @@ class DiagnosisController extends Controller
     }
 
 
-    public function show($diag)
+    public function show( $diag)
     {
-        $diagnosis = Diagnosis::find($diag);
+        $diagnosis = Diagnosis::findOrFail($diag);
 
-        $labs = Lab::all();
-
-        return view('patient.diagnosis.show', compact('diagnosis', 'labs'));
+        if (auth()->user()->role_id === 3){
+            $labs = Lab::all();
+            return view('patient.diagnosis.show', compact('diagnosis', 'labs'));
+        }
+        elseif (auth()->user()->role_id ===2){
+            $date = date('Y-m-d', strtotime($diagnosis->complaint->created_at->addMonths($diagnosis->complaint->patient->disease->months_interval)));
+            return view('doctor.diagnosis.show', compact('diagnosis', 'date'));
+        }
     }
 
     public function confirm_lab(Request $request)

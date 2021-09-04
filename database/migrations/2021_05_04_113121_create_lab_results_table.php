@@ -16,7 +16,7 @@ class CreateLabResultsTable extends Migration
         Schema::create('lab_results', function (Blueprint $table) {
             $table->id();
             $table->foreignId('diagnosis_id')->constrained('diagnoses')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('lab_technician_id')->constrained()->onDelete('cascade')->onUpdate('cascade');
             $table->string('test_document');
             $table->longText('remarks')->nullable();
             $table->timestamps();

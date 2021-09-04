@@ -1,7 +1,7 @@
 @extends('layouts.common')
 
 @section('page-title')
-    Diagnoses- Doctor
+    Lab Results - Doctor
 @endsection
 
 @include('doctor.components.profile')
@@ -9,7 +9,7 @@
 @section('content')
     <div class="card shadow mb-4">
         <div class="card-header py-3 text-center">
-            <h6 class="m-0 font-weight-bold text-primary">List of diagnoses from patients you are attending</h6>
+            <h6 class="m-0 font-weight-bold text-primary">List of lab results of diagnoses from patients you are attending</h6>
         </div>
         <div class="card-body text-center" >
             <div class="table-responsive">
@@ -18,8 +18,8 @@
                     <tr>
                         <th>Id</th>
                         <th>Patient's name</th>
-                        <th>Complaint & Diagnosis</th>
-                        <th>Lab Results</th>
+                        <th>Laboratory</th>
+                        <th>Lab Results Status</th>
                         <th>Actions</th>
                     </tr>
                     </thead>
@@ -29,22 +29,14 @@
                         @foreach($diagnoses as $diagnosis)
                             <tr>
                                 <td>{{$loop->iteration}}</td>
-                                <td>{{$diagnosis->complaint->user->patient->first_name.' '.$diagnosis->complaint->user->patient->last_name}}</td>
-                                <td><a href="{{route('complaints.show', $diagnosis->complaint->id)}}"><i class="fas fa-eye mr-2"></i>View</a></td>
+                                <td>{{$diagnosis->complaint->patient->first_name.' '.$diagnosis->complaint->patient->last_name}}</td>
+                                <td>{{$diagnosis->lab_result ? $diagnosis->lab->name : 'Unconfirmed'}}</td>
                                 <td>
-                                    @if($diagnosis->tests == "yes")
-                                        @if($diagnosis->lab_result)
-                                            <a href="{{route('download.lab-result', $diagnosis->lab_result->test_document)}}">Download document</a>
-                                        @else
-                                            <div class="badge badge-warning">Tests Pending</div>
-                                        @endif
-                                    @else
-                                        Not required
-                                    @endif
+                                    {!! $diagnosis->lab_result ? '<span class = "badge badge-success"> Tested </span>' : 'Unconfirmed' !!}
                                 </td>
                                 <td>
-                                    <a href="{{route('results.show', $diagnosis)}}" class="badge badge-info badge-sm">
-                                        <small> <i class="fas fa-poll-h"></i></small> Post Final results
+                                    <a href="{{route('diagnosis.show', $diagnosis)}}" class="badge badge-info badge-sm">
+                                        <small> <i class="fas fa-eye"></i></small>
                                     </a>
                                 </td>
                             </tr>
@@ -56,6 +48,9 @@
                     @endif
                     </tbody>
                 </table>
+                <div class="d-flex justify-content-center mt-2">
+                    {{$diagnoses->links()}}
+                </div>
             </div>
         </div>
     </div>

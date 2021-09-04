@@ -85,7 +85,7 @@
         <li class="nav-item">
             <a class="nav-link collapsed" href="{{route('diagnosis.index')}}" >
                 <i class="fas fa-poll-h"></i>
-                <span>Final results</span>
+                <span>Diagnoses</span>
             </a>
         </li>
 
@@ -119,12 +119,6 @@
                 </a>
             </li>
 
-{{--            <li class="nav-item">--}}
-{{--                <a class="nav-link " href="{{route('blank')}}" >--}}
-{{--                    <i class="fas fa-database"></i>--}}
-{{--                    <span>Records</span>--}}
-{{--                </a>--}}
-{{--            </li>--}}
 
     @elseif(auth()->user()->role->name  == 'Lab Technician')
         <!-- Nav Item - Dashboard -->
@@ -136,7 +130,7 @@
         <li class="nav-item">
             <a class="nav-link " href="{{route('lab_tech.create')}}" >
                 <i class="fas fa-fw fa-cog"></i>
-                <span>Diagnosis</span>
+                <span>Diagnoses</span>
             </a>
         </li>
 

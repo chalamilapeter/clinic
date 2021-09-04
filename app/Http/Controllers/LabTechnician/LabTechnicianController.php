@@ -16,8 +16,9 @@ class LabTechnicianController extends Controller
 
     public function create()
     {
-        $diagnosis = Diagnosis::where('tests', 'yes')->get();
-        return view('lab_technician.diagnosis.index', compact('diagnosis'));
+        $diagnoses = Diagnosis::where('lab_id', auth()->user()->lab_technician->lab_id)->latest()->paginate(5);
+
+        return view('lab_technician.diagnosis.index', compact('diagnoses'));
 
     }
 

@@ -27,7 +27,7 @@ Route::group(['middleware' => 'auth'], function(){
     Route::resource('complaints', \App\Http\Controllers\ComplaintController::class);
     Route::resource('diagnosis', \App\Http\Controllers\DiagnosisController::class);
     Route::resource('lab_results', \App\Http\Controllers\LabResultController::class);
-    Route::get('lab_results_download/{id}', [\App\Http\Controllers\LabResultController::class, 'download'])->name('download.lab-result');
+    Route::get('lab_results_download/{labResult}/{slug}', [\App\Http\Controllers\LabResultController::class, 'download'])->name('download.lab-result');
     Route::resource('results', \App\Http\Controllers\ResultControler::class);
 
     //Admin Routes

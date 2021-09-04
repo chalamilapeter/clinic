@@ -33,30 +33,27 @@ class LabResultController extends Controller
     {
 
        $data =  $request->validate([
-            'diagnosis_id'=>'required',
-            'user_id' => 'required',
-            'test_document' => 'required|mimes:pdf|max:2048',
+            'diagnosis_id'=>'',
+            'test_document' => 'required|mimes:pdf,jpg,png|max:2048',
             'remarks' => ''
         ]);
 
         $diag = Diagnosis::find($request->diagnosis_id);
 
-        $name = $diag->complaint->user->patient->first_name."-".$diag->complaint->user->patient->last_name;
+        $name = $diag->complaint->patient->first_name."-".$diag->complaint->patient->last_name;
 
-        $filename = $name."-(lab-results)-".uniqid().".".$request->test_document->extension();
+        $filename = $name."-lab-results-".uniqid().".".$request->test_document->extension();
 
         $request->test_document->move(public_path('documents/lab-results'), $filename);
 
         $lab_result = new LabResult;
         $lab_result->diagnosis_id = $data['diagnosis_id'];
-        $lab_result->user_id = $data['user_id'];
+        $lab_result->lab_technician_id = auth()->user()->lab_technician->id;
         $lab_result->test_document = $filename;
         $lab_result->remarks = $data['remarks'];
         $lab_result->save();
 
         return redirect()->route('lab_tech.create')->with('success', 'Test results uploaded');
-
-
 
     }
 
@@ -100,9 +97,11 @@ class LabResultController extends Controller
         //
     }
 
-    public function download($id)
+    public function download(LabResult $labResult)
     {
-        $file = public_path()."/documents/".$id;
+        $file = $labResult->test_document;
+
+        $file = public_path()."/documents/lab-results/".$file;
 
         $header = array(
             'Content-type: application/pdf',

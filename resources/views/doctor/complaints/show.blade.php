@@ -162,7 +162,7 @@
                         <div class="condition d-none" id="general">
                             <div class="card-header py-3">
                                 <h6 class="m-0 font-weight-bold text-primary">Overall Condition</h6>
-                                <small>What would you say is the overall condition for this patient based on this clinic?</small>
+                                <small>What would you say is the overall condition of this patient based on this clinic?</small>
                             </div>
                             <div class="form-group mt-2">
                                 <label for="">Overall condition</label>
@@ -182,7 +182,6 @@
                             </div>
                             <hr>
                         </div>
-
                         <a  class="btn btn-primary button d-none" data-toggle="modal" data-target="#diagnosisconfirm" id="submit">
                             Submit
                         </a>
@@ -244,7 +243,6 @@
                             </div>
                         @else
                             <p class="text-white bg-success rounded p-3">Laboratory tests are <b>not</b> required.</p>
-
                             <br>
                         @endif
                     @endif

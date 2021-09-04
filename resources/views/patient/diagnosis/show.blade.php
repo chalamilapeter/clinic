@@ -47,7 +47,7 @@
                         </div>
                         <div class="col-md-6">
                             <b>Lab:</b>
-                            <p class="text-white bg-secondary rounded p-3">{{$diagnosis->lab->name ." - " . $diagnosis->lab->location ?? "Unconfirmed"}}</p>
+                            <p class="text-white bg-secondary rounded p-3">{{$diagnosis->lab ? $diagnosis->lab->name ." - " . $diagnosis->lab->location : "Unconfirmed"}}</p>
                         </div>
                     </div>
                     @if($diagnosis->lab_id === null)
