@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\SMS;
 use App\Models\Diagnosis;
+use App\Models\Doctor;
 use App\Models\LabResult;
 use Illuminate\Support\Facades\Response;
 use Illuminate\Http\Request;
@@ -51,7 +53,16 @@ class LabResultController extends Controller
         $lab_result->lab_technician_id = auth()->user()->lab_technician->id;
         $lab_result->test_document = $filename;
         $lab_result->remarks = $data['remarks'];
+
         $lab_result->save();
+
+        $doctor = Doctor::find($lab_result->diagnosis->complaint->doctor_id);
+
+        $patient = $lab_result->diagnosis->complaint->patient;
+
+        $sms = new SMS();
+        $message = 'Dr. ' . $doctor->last_name . ', ' . $patient->first_name . ' ' . $patient->last_name . " test results have been uploaded from " . $lab_result->lab->name;
+        $sms->sendSingleSMS($doctor->phone, $message);
 
         return redirect()->route('lab_tech.create')->with('success', 'Test results uploaded');
 

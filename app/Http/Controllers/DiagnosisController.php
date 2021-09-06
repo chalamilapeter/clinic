@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Classes\SMS;
 use App\Models\Admin\Lab;
 use App\Models\Complaint;
 use App\Models\Diagnosis;
@@ -63,6 +64,11 @@ class DiagnosisController extends Controller
                     'condition' => 'Critical',
                     'next_appointment' => $date->updated_at->addMonth($complaint->patient->disease->months_interval),
                 ]);
+
+                $patient = $complaint->patient;
+                $sms = new SMS();
+                $message = 'Hello ' . ', ' . $patient->first_name . ' ' . $patient->last_name . ', your complaints are diagnosed and you need to come to the hospital at once!';
+                $sms->sendSingleSMS($patient->phone, $message);
             }
             else{
 
@@ -82,6 +88,9 @@ class DiagnosisController extends Controller
                         'tests' => 'yes',
                         'required_tests' => $data['required_tests'],
                     ]);
+                     $sms = new SMS();
+                     $message = 'Hello ' . ', ' . $complaint->patient->first_name . ' ' . $complaint->patient->last_name . ', your complaints are diagnosed and you need to perform lab tests. Login to the system to view the tests and confirm the lab!';
+                     $sms->sendSingleSMS($complaint->patient->phone, $message);
                  }
                  else{
                      $complaint->result()->create([
@@ -92,6 +101,10 @@ class DiagnosisController extends Controller
                          'next_appointment' => $data['next_appointment'],
                          'condition' => $data['condition'],
                      ]);
+
+                     $sms = new SMS();
+                     $message = 'Hello ' . ', ' . $complaint->patient->first_name . ' ' . $complaint->patient->last_name . ', your complaints are diagnosed and results are ready. Login to the system to view your results!';
+                     $sms->sendSingleSMS($complaint->patient->phone, $message);
 
                  }
             }
@@ -130,6 +143,13 @@ class DiagnosisController extends Controller
         $diagnosis = Diagnosis::find($request->diagnosis_id);
 
         $diagnosis->update(['lab_id' => $request->lab_id]);
+
+        $lab = Lab::findOrFail($request->lab_id);
+        $technician = $lab->lab_technician->first();
+
+        $sms = new SMS();
+        $message = 'Hello ' . ', ' . $technician->first_name . ' ' . $technician->last_name . ', a patient has confirmed your lab to perform tests. Login in to view the tests !';
+        $sms->sendSingleSMS($technician->phone, $message);
 
         return back()->with('success', 'Laboratory confirmed! Attend the laboratory as soon as possible to get tested');
     }

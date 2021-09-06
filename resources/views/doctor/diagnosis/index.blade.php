@@ -30,7 +30,7 @@
                             <tr>
                                 <td>{{$loop->iteration}}</td>
                                 <td>{{$diagnosis->complaint->patient->first_name.' '.$diagnosis->complaint->patient->last_name}}</td>
-                                <td>{{$diagnosis->lab_result ? $diagnosis->lab->name : 'Unconfirmed'}}</td>
+                                <td>{{$diagnosis->lab ? $diagnosis->lab->name : 'Unconfirmed'}}</td>
                                 <td>
                                     {!! $diagnosis->lab_result ? '<span class = "badge badge-success"> Tested </span>' : 'Unconfirmed' !!}
                                 </td>

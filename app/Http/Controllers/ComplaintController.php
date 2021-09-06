@@ -63,7 +63,7 @@ class ComplaintController extends Controller
             $doctor = $patient->doctor;
             $sms = new SMS();
             $message = 'Dr. ' . $doctor->last_name . ', ' . $patient->first_name . ' ' . $patient->last_name . ' has submitted ' . ($patient->gender === 'Male' ? 'his' : 'her') . ' complaint log. Be sure to check it out.';
-//            $sms->sendSingleSMS($doctor->phone, $message);
+            $sms->sendSingleSMS($doctor->phone, $message);
 
             return back()->with('success', 'Your complaint log has been submitted');
         }

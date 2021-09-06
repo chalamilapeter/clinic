@@ -53,7 +53,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Further diagnosis</h6>
             </div>
             <div class="card-body">
-                @if($diagnosis->tested !== 0)
+                @if($diagnosis->tested === 0)
                     <form action="{{route('diagnosis.store')}}" method="post" id="diagnosis-form">
                         @csrf
                         <input type="hidden" name="complaint_id" value="{{$diagnosis->complaint->id}}">
