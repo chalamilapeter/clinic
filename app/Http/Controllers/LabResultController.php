@@ -61,7 +61,7 @@ class LabResultController extends Controller
         $patient = $lab_result->diagnosis->complaint->patient;
 
         $sms = new SMS();
-        $message = 'Dr. ' . $doctor->last_name . ', ' . $patient->first_name . ' ' . $patient->last_name . " test results have been uploaded from " . $lab_result->lab->name;
+        $message = 'Dr. ' . $doctor->last_name . ', ' . $patient->first_name . ' ' . $patient->last_name . " test results have been uploaded from " . $lab_result->diagnosis->lab->name;
         $sms->sendSingleSMS($doctor->phone, $message);
 
         return redirect()->route('lab_tech.create')->with('success', 'Test results uploaded');

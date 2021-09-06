@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
             PatientSeeder::class,
             LaboratorySeeder::class,
             LabTechnicianSeeder::class,
-            PharmacySeeder::class,
-            PharmacistSeeder::class,
+//            PharmacySeeder::class,
+//            PharmacistSeeder::class,
         ]);
     }
 }

@@ -28,7 +28,9 @@ class ComplaintController extends Controller
                 $previous_date = $results->first()->created_at ?? now();
                 $next_date = Carbon::make($results->first()->next_appointment ?? now());
                 $doctor = $patient->doctor->last_name . ", " . $patient->doctor->first_name;
-                return view('patient.complaints.index', compact('previous_date', 'next_date', 'doctor'));
+
+                $result = $results->first();
+                return view('patient.complaints.index', compact('previous_date', 'next_date', 'doctor', 'result'));
             }
             else {
                 $doctor = auth()->user()->doctor;

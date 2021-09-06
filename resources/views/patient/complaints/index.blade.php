@@ -27,8 +27,8 @@
                 <ul>
                     <li class="my-2">Date: <span class="text-primary">{{date('d F Y'), strtotime($previous_date)}}</span></li>
                     <li  class="my-2">Doctor: <span class="text-primary">{{'Dr. '. $doctor .'. MD'}}</span></li>
-                    <li  class="my-2">Overall condition: <span class="text-success">Great</span></li>
-                    <li  class="my-2">Detailed results: <a href="#" >View</a></li>
+                    <li  class="my-2">Overall condition: <span class="text-secondary font-weight-bold">{{$result ? $result->condition : "-"}}</span></li>
+                    <li  class="my-2">Detailed results: <a href="{{$result ? route('results.show', $result->id) : "#"}}" >View</a></li>
                 </ul>
                 <hr>
                 <h6 class="font-weight-bold">Next Appointment:</h6>
@@ -46,7 +46,7 @@
                 <h6 class="m-0 font-weight-bold text-primary">Complaints Log</h6>
             </div>
             <div class="card-body">
-                @if (date('d') === date('d', strtotime(auth()->user()->patient->appointment_date)))
+                @if (date('d') !== date('d', strtotime(auth()->user()->patient->appointment_date)))
                    <div class="text-center text-info">
                        <i class="far fa-sad-tear fa-9x"></i>
                    </div>
